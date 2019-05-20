@@ -1,3 +1,8 @@
+{-
+
+Realigning strict glue.
+
+-}
 {-# OPTIONS --rewriting #-}
 module glueing.aligned where
 

@@ -1,3 +1,8 @@
+{-
+
+CCHM style identity types.
+
+-}
 {-# OPTIONS --rewriting #-}
 module Data.id where
 

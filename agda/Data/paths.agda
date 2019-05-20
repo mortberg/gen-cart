@@ -1,3 +1,8 @@
+{-
+
+Fibrancy of Path types.
+
+-}
 {-# OPTIONS --rewriting #-}
 module Data.paths where
 

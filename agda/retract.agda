@@ -1,12 +1,11 @@
 {-# OPTIONS --rewriting #-}
+module retract where
 
 open import prelude
 open import interval
 open import cof
 open import fibrations
 open import hcomp-coe
-
-module retract where
 
 homotopyRetractIsFib : ∀ {ℓ} {Γ : Set ℓ}
   (A B : Γ → Set) (α : isHFib A) (β : isFib B)

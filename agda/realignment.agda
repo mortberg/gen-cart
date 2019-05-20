@@ -1,3 +1,8 @@
+{-
+
+Realign a fibration structure.
+
+-}
 {-# OPTIONS --rewriting #-}
 module realignment where 
 

@@ -1,3 +1,8 @@
+{-
+
+Strict Glue types.
+
+-}
 {-# OPTIONS --rewriting #-}
 module glueing.strict where
 

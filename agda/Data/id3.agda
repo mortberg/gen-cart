@@ -1,4 +1,5 @@
 {-# OPTIONS --rewriting #-}
+module Data.id3 {ℓ} {Γ : Set ℓ} (A : Γ → Set) where
 
 open import prelude
 open import Data.products
@@ -10,8 +11,6 @@ open import cofreplacement
 open import fibreplacement
 open import Data.products
 open import Data.inductive-fiber
-
-module Data.id3 {ℓ} {Γ : Set ℓ} (A : Γ → Set) where
 
 Δ : (x : Γ) → A x → A x × A x
 Δ x a = (a , a)

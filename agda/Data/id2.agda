@@ -1,4 +1,5 @@
 {-# OPTIONS --rewriting #-}
+module Data.id2 (Γ : Set) (A : Γ → Set) where
 
 open import prelude
 open import cofreplacement
@@ -8,8 +9,6 @@ open import cof
 open import fibrations
 open import trivialfib
 open import Data.paths
-
-module Data.id2 (Γ : Set) (A : Γ → Set) where
 
 Path' : Γ → Set
 Path' γ = Int → A γ

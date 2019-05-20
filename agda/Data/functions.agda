@@ -1,3 +1,8 @@
+{-
+
+Fibrancy of Π-types.
+
+-}
 {-# OPTIONS --rewriting #-}
 module Data.functions where
 

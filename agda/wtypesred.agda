@@ -1,9 +1,13 @@
+{-
+
+W-types with reductions.
+
+-}
 {-# OPTIONS --rewriting #-}
+module wtypesred {ℓ} where
 
 open import prelude
 open import cof
-
-module wtypesred {ℓ : Level} where
 
 record Poly : Set (lsuc ℓ) where
   field

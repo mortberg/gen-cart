@@ -1,4 +1,5 @@
 {-# OPTIONS --rewriting #-}
+module fiberwise-total where
 
 open import prelude
 open import interval
@@ -6,8 +7,6 @@ open import cof
 open import fibrations
 open import wtypesred
 open import Data.products
-
-module fiberwise-total where
 
 fiberwise+total→isFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) (B : (x : Γ) → A x → Set)
   (α : isFib A)

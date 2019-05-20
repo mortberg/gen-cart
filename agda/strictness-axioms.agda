@@ -1,3 +1,8 @@
+{-
+
+Axioms related to strictifying Glue types.
+
+-}
 {-# OPTIONS --rewriting #-}
 module strictness-axioms where 
 

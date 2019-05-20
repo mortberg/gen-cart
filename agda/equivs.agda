@@ -1,3 +1,9 @@
+{-
+
+Definitions of contractible, extensible (SContr), fibers, equivalences
+and quasi-invertible maps.
+
+-}
 {-# OPTIONS --rewriting #-}
 module equivs where
 
@@ -11,6 +17,7 @@ open import Data.paths
 ----------------------------------------------------------------------
 -- Contr and Ext (now called SContr)
 ----------------------------------------------------------------------
+
 Contr : Set → Set
 Contr A = Σ a₀ ∈ A , ((a : A) → a ~ a₀)
 
@@ -35,6 +42,7 @@ SContr→Contr h = x , λ y → path (λ i → α y i .fst)
 ----------------------------------------------------------------------
 -- Equivalences and quasi-inverses
 ----------------------------------------------------------------------
+
 Fiber : {A B : Set} (f : A → B) (b : B) → Set
 Fiber {A} f b = Σ a ∈ A , f a ~ b
 

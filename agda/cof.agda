@@ -1,4 +1,11 @@
+{-
+
+Definition of the universe of cofibrant propositions and basic
+operations on these.
+
+-}
 {-# OPTIONS --rewriting #-}
+
 module cof where
 
 open import prelude
@@ -36,9 +43,8 @@ postulate
 _↗_ : ∀ {ℓ} {A : Set ℓ} {ϕ : Set} → (ϕ → A) → A → Set ℓ
 f ↗ x = (u : _) → f u ≡ x
 
-_◆_ : ∀ {ℓ ℓ'}
-  {A : Set ℓ} {B : Int → Set ℓ'}
-  → (A → (i : Int) → B i) → (i : Int) → A → B i
+_◆_ : ∀ {ℓ ℓ'} {A : Set ℓ} {B : Int → Set ℓ'}
+       → (A → (i : Int) → B i) → (i : Int) → A → B i
 (f ◆ i) a = f a i
 
 _[_↦_] : ∀ {ℓ} (A : Set ℓ) (φ : Cof) → ([ φ ] → A) → Set ℓ
@@ -47,13 +53,13 @@ A [ φ ↦ f ] = Σ a ∈ A , f ↗ a
 ----------------------------------------------------------------------
 -- Restricting a context by a cofibrant propositions
 ----------------------------------------------------------------------
-res : ∀{a}(Γ : Set a)(Φ : Γ → Cof) → Set a
+res : ∀ {ℓ} (Γ : Set ℓ) (Φ : Γ → Cof) → Set ℓ
 res Γ Φ = Σ x ∈ Γ , [ Φ x ]
 
 ----------------------------------------------------------------------
 -- Property of being a cofibration
 ----------------------------------------------------------------------
-isCof : ∀{ℓ}(A : Set ℓ) → Set ℓ
+isCof : ∀ {ℓ} (A : Set ℓ) → Set ℓ
 isCof A = Σ φ ∈ Cof , ([ φ ] → A) × (A → [ φ ])
 
 ≡OIsCof : (i : Int) → isCof (i ≡ O)

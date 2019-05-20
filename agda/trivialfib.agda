@@ -1,12 +1,17 @@
+{-
+
+Definition of trivial fibrations and proof that they are actually
+fibrations.
+
+-}
 {-# OPTIONS --rewriting #-}
+module trivialfib where
 
 open import prelude
 open import cof
 open import fibrations
 open import interval
 open import equivs
-
-module trivialfib where
 
 O≡I-elim : ∀ {ℓ} {i : Int} {D : [ i ≈O ] → [ i ≈I ] → Set ℓ} (v : i ≡ O) (u : i ≡ I) → D v u
 O≡I-elim v u = O≠I (trans u (symm v))

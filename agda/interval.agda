@@ -1,3 +1,8 @@
+{-
+
+Definition of the interval and Path types.
+
+-}
 {-# OPTIONS --rewriting #-}
 module interval where
 

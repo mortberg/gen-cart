@@ -1,3 +1,8 @@
+{-
+
+Proof of univalence in the form of ua and uaβ.
+
+-}
 {-# OPTIONS --rewriting #-}
 module univalence where
 

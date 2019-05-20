@@ -1,3 +1,9 @@
+{-
+
+Definition of weak composition and fibrations. Proof that they are
+closed under isomorphism and that weak composition can be strictified.
+
+-}
 {-# OPTIONS --rewriting #-}
 module fibrations where
 
@@ -6,7 +12,7 @@ open import interval
 open import cof
 
 ----------------------------------------------------------------------
--- Path composition structure
+-- Weak composition structure
 ----------------------------------------------------------------------
 
 record WComp (r : Int) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
@@ -163,10 +169,10 @@ record SComp (r : Int) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
 
 open SComp public
 
-isSFib : ∀{ℓ}{Γ : Set ℓ}(A : Γ → Set) → Set ℓ
+isSFib : ∀{ℓ} {Γ : Set ℓ} (A : Γ → Set) → Set ℓ
 isSFib {Γ = Γ} A = ∀ r p φ f x₀ → SComp r (A ∘ p) φ f x₀
 
-strictifyFib : ∀{a}{Γ : Set a}(A : Γ → Set) → isFib A → isSFib A
+strictifyFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → isFib A → isSFib A
 strictifyFib A α r p φ f x₀ =
   record
   { comp = λ s c →

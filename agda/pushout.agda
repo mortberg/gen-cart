@@ -1,5 +1,9 @@
-{-# OPTIONS --rewriting #-}
+{-
 
+Axiomatization of pushouts.
+
+-}
+{-# OPTIONS --rewriting #-}
 open import prelude
 
 module pushout where
@@ -7,7 +11,6 @@ module pushout where
 postulate
   Pushout : {ℓ m k : Level} {A : Set ℓ} {B : Set m} {C : Set k}
     (f : A → B) (g : A → C) → Set (ℓ ⊔ m ⊔ k)
-
 
 module _ {ℓ m k : Level} {A : Set ℓ} {B : Set m} {C : Set k}
   {f : A → B} {g : A → C}

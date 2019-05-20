@@ -1,5 +1,19 @@
--- Proof that "CCHM" fibrations are equivalent to weak fibrations
--- in the presence of a connection algebra à la Orton-Pitts
+{-
+
+Proof that CCHM fibrations defined in
+
+  https://arxiv.org/abs/1611.02108
+
+are equivalent to weak fibrations in the presence of a connection
+algebra à la Orton-Pitts:
+
+  https://lmcs.episciences.org/5028/pdf
+  https://github.com/IanOrton/cubical-topos-experiments
+
+We also prove that CCHM composition implies filling and squeeze
+operations.
+
+-}
 {-# OPTIONS --rewriting #-}
 module CCHM where
 

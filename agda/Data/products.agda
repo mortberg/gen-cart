@@ -1,3 +1,8 @@
+{-
+
+Fibrancy of Σ-types.
+
+-}
 {-# OPTIONS --rewriting #-}
 module Data.products where
 
@@ -10,6 +15,7 @@ open import Data.paths
 ----------------------------------------------------------------------
 -- Dependent products
 ----------------------------------------------------------------------
+
 Σ' : ∀{a}{Γ : Set a}(A : Γ → Set)(B : (Σ x ∈ Γ , A x) → Set) → Γ → Set
 Σ' A B x = Σ a ∈ A x , B (x , a)
 

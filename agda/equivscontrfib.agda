@@ -1,10 +1,11 @@
-----------------------------------------------------------------------
--- Equivalent definition of isFib due to Dan Licata
---
--- A : I → Set has Kan composition iff
---   Π r:I, the map (λ f → f r) : (Π (x : I) → A x) → (A r)
---          is an equivalence
---
+{-
+
+Equivalent definition of isFib due to Dan Licata
+
+  A : I → Set has weak Kan composition iff 
+  Π r:I, the map (λ f → f r) : (Π (x : I) → A x) → (A r) is an equivalence
+
+-}
 {-# OPTIONS --rewriting #-}
 module equivscontrfib where
 

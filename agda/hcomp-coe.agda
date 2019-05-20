@@ -1,3 +1,9 @@
+{-
+
+Definition of weak homogeneous composition and coercion. Proof that
+these imply weak composition.
+
+-}
 {-# OPTIONS --rewriting #-}
 module hcomp-coe where
 

@@ -1,3 +1,8 @@
+{-
+
+Definition of (weak) Glue and their (unaligned) fibrancy.
+
+-}
 {-# OPTIONS --rewriting #-}
 module glueing.core where
 

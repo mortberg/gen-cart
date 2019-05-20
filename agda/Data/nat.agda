@@ -1,3 +1,8 @@
+{-
+
+The type of natural numbers is fibrant.
+
+-}
 module Data.nat where
 
 open import prelude

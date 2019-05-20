@@ -1,4 +1,10 @@
+{-
+
+Cofibrant replacement and definition of (trivial) cofibrations.
+
+-}
 {-# OPTIONS --rewriting #-}
+module cofreplacement where
 
 open import prelude
 open import cof
@@ -7,8 +13,6 @@ open import interval
 open import trivialfib
 open import wtypesred
 open import equivs
-
-module cofreplacement where
 
 crpoly : (A : Set) → Poly
 crpoly A = record { Constr = A ⊎ Cof
