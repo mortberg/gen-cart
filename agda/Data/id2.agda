@@ -1,3 +1,15 @@
+{-
+
+Identity types constructed using cofibrant replacement (factorisation
+of a map as a cofibration followed by trivial fibration).
+
+In this version the cofibrant replacement is constructed by assuming W
+types with reductions rather than ax7 and extensionality for cofibrant
+propositions.
+
+-}
+
+
 {-# OPTIONS --rewriting #-}
 module Data.id2 (Γ : Set) (A : Γ → Set) where
 

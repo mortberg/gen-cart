@@ -2,6 +2,12 @@
 
 W-types with reductions.
 
+We postulate cofibrant, non-indexed and indexed versions of W-types
+with reductions. These hold in any topos with n.n.o that satisfies
+WISC, and there is a more explicit description that does not use WISC
+for (possibly internal) presheaves when cofibrant propositions are
+locally decidable.
+
 -}
 {-# OPTIONS --rewriting #-}
 module wtypesred {ℓ} where
