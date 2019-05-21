@@ -17,8 +17,8 @@ Contents
 - CCHM: Equivalence with weak fibrations and CCHM fibrations in the
   presence of a connection algebra structure.
 
-- cof: Definition of the universe of cofibrant propositions and basic
-  operations on these.
+- cofprop: Definition of the universe of cofibrant propositions and
+  basic operations on these.
 
 - cofreplacement: Cofibrant replacement and definition of (trivial)
   cofibrations.
