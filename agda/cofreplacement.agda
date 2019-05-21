@@ -14,14 +14,14 @@ open import trivialfib
 open import wtypesred
 open import equivs
 
-crpoly : (A : Set) → Poly
+crpoly : Set → Poly
 crpoly A = record { Constr = A ⊎ CofProp
                   ; Arity = λ {(inl a) → ∅ ; (inr φ) → [ φ ]}
                   ; Red = λ {(inl a) → (O  ≈I) ; (inr φ) → φ }
                   ; ev = λ {(inl a) → O≠I ; (inr φ) → λ x → x} }
 
 
-CR : (A : Set) → Set
+CR : Set → Set
 CR A = WR (crpoly A)
 
 incl : {A : Set} → A → CR A
@@ -59,10 +59,10 @@ CR-β : ∀ {ℓ'} {A : Set} (B : CR A → Set ℓ')
 CR-β B {b₀ = b₀} a = trans (cong (λ p → subst B p (b₀ a)) (uip ((cong (sup _ (inl a)) (funext ∅-elim))) refl)) (WR-elim-β _ B _ _ _ _ ∅-elim)
 
 
-CR-iscontr : {A : Set} → (SContr (CR A))
-CR-iscontr {A = A} φ u = fill φ u , λ x → symm (CR-red u x)
+CR-iscontr : {A : Set} → SContr (CR A)
+CR-iscontr φ u = fill φ u , λ x → symm (CR-red u x)
 
-CR-isfib : ∀ {ℓ} (Γ : Set ℓ) (A : Γ → Set) → (isFib (CR ∘ A))
+CR-isfib : ∀ {ℓ} (Γ : Set ℓ) (A : Γ → Set) → isFib (CR ∘ A)
 CR-isfib Γ A = TrivialFib-isFib (CR ∘ A) (λ a → CR-iscontr)
 
 record cofibration {A B : Set} (f : A → B) : Set₁ where
@@ -129,3 +129,18 @@ module cof-replace {A B : Set} (f : A → B) where
 
   R-tf : map-isTrivialFib R
   R-tf = TrivialFib-tomap _ M₀-isTrivialFib
+
+
+-- TODO: make things universe polymorphic so that this works properly
+record factorization {A B X : Set} (f : A → B) (P : (A → X) → Set₁) (Q : (X → B) → Set) : Set₁ where
+  field
+    g : A → X
+    hg : P g
+    h : X → B
+    hh : Q h
+    triangle : (a : A) → h (g a) ≡ f a
+
+open cof-replace
+
+c-tf-factorization : {A B : Set} (f : A → B) → factorization f cofibration map-isTrivialFib
+c-tf-factorization f = record { g = L f ; hg = L-cof f ; h = R f ; hh = R-tf f ; triangle = λ a → refl }

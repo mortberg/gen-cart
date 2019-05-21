@@ -108,7 +108,7 @@ module _ {A B : Set} (f : A → B) where
               (funext λ _ → funext ∅-elim)
               (quotCase a)
           ; (fcomp r p φ s t w) box boxrec →
-            joined X χ r p φ box boxrec s t w 
+            joined X χ r p φ box boxrec s t w
           })
         (λ
           { (dom a) _ _ O≡I → O≠I O≡I

@@ -220,4 +220,3 @@ strictifyFib A α r p φ f x₀ =
 
     strong : Σ x₂ ∈ (A (p s)) , (fixed-f' ◆ I ↗ x₂)
     strong = α O (λ _ → p s) (φ ∨ r≡s) fixed-f' weak' .comp I
- 
