@@ -16,7 +16,7 @@ open import equivs
 O≡I-elim : ∀ {ℓ} {i : Int} {D : [ i ≈O ] → [ i ≈I ] → Set ℓ} (v : i ≡ O) (u : i ≡ I) → D v u
 O≡I-elim v u = O≠I (trans u (symm v))
 
-path-contr : {A : Set} (ac : SContr A) (a a' : A) → (SContr (a ~ a'))
+path-contr : {A : Set} (ac : SContr A) (a a' : A) → SContr (a ~ a')
 path-contr {A} ac a a' φ u =
   path (λ i → fst (ac (φ' i) (u' i)))
        (symm (snd (ac (φ' O) (u' O)) ∣ inr ∣ inl refl ∣ ∣))
@@ -37,24 +37,24 @@ scontr-iso f g f-g g-f acontr =
   λ φ u → (f (fst (acontr φ (g ∘ u)))) ,
   λ x → trans (cong f (snd (acontr φ (g ∘ u)) x)) (symm (f-g (u x)))
 
-isTrivialFib : ∀ {ℓ ℓ'} {Γ : Set ℓ} (B : Γ → Set ℓ') → (Set (ℓ ⊔ ℓ'))
-isTrivialFib {Γ = Γ} B = (γ : Γ) → SContr (B γ)
+isTrivialFib : ∀ {ℓ ℓ'} {Γ : Set ℓ} (B : Γ → Set ℓ') → Set (ℓ ⊔ ℓ')
+isTrivialFib B = (γ : _) → SContr (B γ)
 
-SFiber : ∀ {ℓ ℓ'} {A : Set ℓ} {B : Set ℓ'} (f : A → B) (b : B) → (Set (ℓ ⊔ ℓ'))
-SFiber {A = A} f b = Σ A λ a → f a ≡ b
+SFiber : ∀ {ℓ ℓ'} {A : Set ℓ} {B : Set ℓ'} → (A → B) → B → Set (ℓ ⊔ ℓ')
+SFiber f b = Σ _ (λ a → f a ≡ b)
 
 map-isTrivialFib : {A : Set} {B : Set} (f : A → B) → Set
 map-isTrivialFib f = isTrivialFib (SFiber f)
 
-TrivialFib-tomap : {Γ : Set} (A : Γ → Set) → (isTrivialFib A) → (map-isTrivialFib (fst {A = Γ} {B = A}))
+TrivialFib-tomap : {Γ : Set} (A : Γ → Set) → isTrivialFib A → map-isTrivialFib fst
 TrivialFib-tomap {Γ} A tf γ = scontr-iso (λ a → (γ , a) , refl) (λ {((γ' , a'), p) → subst A p a'})
   (λ {((γ' , a'), p) → lemma p a'}) (λ a → refl) (tf γ)
   where
     lemma : {γ γ' : Γ} (p : γ' ≡ γ) (a' : A γ') → (((γ , subst A p a') , refl) ≡ ((γ' , a') , p))
     lemma refl a' = refl
 
-TrivialFib-∘ : {A B C : Set} (g : B → C) (f : A → B) → (map-isTrivialFib g) → (map-isTrivialFib f) →
-               (map-isTrivialFib (g ∘ f))
+TrivialFib-∘ : {A B C : Set} (g : B → C) (f : A → B) → map-isTrivialFib g → map-isTrivialFib f →
+               map-isTrivialFib (g ∘ f)
 TrivialFib-∘ g f gtf ftf c φ u = (a , (trans p (cong g q))) , (λ x → Σext (Σeq₁ (abdy x)) (uip _ _))
   where
     u' : [ φ ] → SFiber g c
@@ -72,7 +72,7 @@ TrivialFib-∘ g f gtf ftf c φ u = (a , (trans p (cong g q))) , (λ x → Σext
     abdy = snd aq0
 
 
-SContrToPaths : {A : Int → Set} (tf : isTrivialFib A) (a : A O) (a' : A I) → (a ~~ a')
+SContrToPaths : {A : Int → Set} (tf : isTrivialFib A) (a : A O) (a' : A I) → a ~~ a'
 SContrToPaths {A} tf a a' =
   path p e0 e1
   where
@@ -87,16 +87,16 @@ SContrToPaths {A} tf a a' =
 
     e0 : p O ≡ a
     e0 = symm (snd (pc O) ∣ inl refl ∣)
-    
+
     e1 : p I ≡ a'
     e1 = symm (snd (pc I) ∣ inr refl ∣)
 
-TrivialFib-isFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → (isTrivialFib A) → (isFib A)
+TrivialFib-isFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → isTrivialFib A → isFib A
 TrivialFib-isFib A tf r p φ f x₀ =
   record { comp = co ; cap = ca }
   where
     co = λ i → tf (p i) φ (λ x → f x i)
-    
+
     φ' = λ i → φ ∨ (i ≈O) ∨ (i ≈I)
     u : (i : Int) → [ φ' i ] → A (p r)
     u i x = ∨-rec φ ((i ≈O) ∨ (i ≈I)) (λ x' → f x' r)
@@ -115,4 +115,3 @@ TrivialFib-isFib A tf r p φ f x₀ =
     ca = path pth (symm (bdy O ∣ inr ∣ inl refl ∣ ∣))
                   (symm (bdy I ∣ inr ∣ inr refl ∣ ∣)) ,
          λ i x → bdy i ∣ inl x ∣
-

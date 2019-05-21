@@ -23,8 +23,8 @@ record WCoe (r : Int) (A : Int → Set) (a₀ : A r) : Set
 
 open WCoe public
 
-isCoeFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → Set ℓ
-isCoeFib A = ∀ r p a₀ → WCoe r (A ∘ p) a₀
+isWCoeFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → Set ℓ
+isWCoeFib A = ∀ r p a₀ → WCoe r (A ∘ p) a₀
 
 ----------------------------------------------------------------------
 -- Strict homogeneous composition
@@ -40,12 +40,25 @@ strictifyHFib A α r y φ f x₀ =
     (λ r _ φ f x₀ → α r _ φ f x₀)
     r _ φ f x₀
 
-----------------------------------------------------------------------
--- We can derive a fibration structure from homogeneous composition + coercion 
-----------------------------------------------------------------------
+-------------------------------------------------------------------------
+-- Trivial direction: We can derive homogeneous composition + coercion
+-- from weak composition
+-------------------------------------------------------------------------
 
-H+Coe→Fib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → isHFib A → isCoeFib A → isFib A
-H+Coe→Fib A η κ r p φ f a₀ = record
+isFib→isHFib : ∀ {ℓ} {Γ : Set ℓ} {A : Γ → Set} → isFib A → isHFib A
+isFib→isHFib α r x φ f a₀ = α r (λ _ → x) φ f a₀
+
+isFib→isWCoeFib : ∀ {ℓ} {Γ : Set ℓ} {A : Γ → Set} → isFib A → isWCoeFib A
+isFib→isWCoeFib α r p a₀ =
+  let f = α r p (O ≈I) (λ x _ → O≠I x) (a₀ , λ u → O≠I u)
+  in record { comp = λ s → f .comp s .fst ; cap = f .cap .fst }
+
+------------------------------------------------------------------------------
+-- We can derive a fibration structure from homogeneous composition + coercion
+------------------------------------------------------------------------------
+
+H+WCoe→Fib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → isHFib A → isWCoeFib A → isFib A
+H+WCoe→Fib A η κ r p φ f a₀ = record
   { comp = λ s →
     ( fixedComp s .fst
     , λ u → trans (fixedComp s .snd u) (symm (κ s p (f u s) .cap .atI))

@@ -11,8 +11,7 @@ open import prelude
 open import interval
 open import cofprop
 open import fibrations
-open import Data.products
-open import Data.paths
+open import hcomp-coe
 
 ----------------------------------------------------------------------
 -- Contr and Ext (now called SContr)
@@ -21,8 +20,8 @@ open import Data.paths
 Contr : Set → Set
 Contr A = Σ a₀ ∈ A , ((a : A) → a ~ a₀)
 
-Contr' : ∀{ℓ}{Γ : Set ℓ} → (Γ → Set) → Set ℓ
-Contr' {_} {Γ} A = (x : Γ) → Contr (A x)
+Contr' : ∀ {ℓ} {Γ : Set ℓ} → (Γ → Set) → Set ℓ
+Contr' A = (x : _) → Contr (A x)
 
 SContr : ∀ {ℓ} (A : Set ℓ) → Set ℓ
 SContr A = (φ : CofProp) → (t : [ φ ] → A) → A [ φ ↦ t ]
