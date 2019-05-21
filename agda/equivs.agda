@@ -9,7 +9,7 @@ module equivs where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import Data.products
 open import Data.paths
@@ -25,7 +25,7 @@ Contr' : ∀{ℓ}{Γ : Set ℓ} → (Γ → Set) → Set ℓ
 Contr' {_} {Γ} A = (x : Γ) → Contr (A x)
 
 SContr : ∀ {ℓ} (A : Set ℓ) → Set ℓ
-SContr A = (φ : Cof) → (t : [ φ ] → A) → A [ φ ↦ t ]
+SContr A = (φ : CofProp) → (t : [ φ ] → A) → A [ φ ↦ t ]
 
 SContr→Contr : {A : Set} → SContr A → Contr A
 SContr→Contr h = x , λ y → path (λ i → α y i .fst)
@@ -87,18 +87,18 @@ idEquiv {A = A} α x a .fst = (a , refl~ a)
 idEquiv {A = A} α x a .snd (a' , p) =
   path
     (λ i →
-      ( q i .comp O (I≡IsCof O) .fst
+      ( q i .comp O (I≡IsCofProp O) .fst
       , path
-        (λ j → q i .comp j (I≡IsCof j) .fst)
+        (λ j → q i .comp j (I≡IsCofProp j) .fst)
         refl
-        (q i .cap (I≡IsCof I))
+        (q i .cap (I≡IsCofProp I))
       ))
     (FiberExt
-      (trans (p .atO) (symm (q O .comp O (I≡IsCof O) .snd ∣ inl refl ∣)))
-      (funext λ j → symm (q O .comp j (I≡IsCof j) .snd ∣ inl refl ∣)))
+      (trans (p .atO) (symm (q O .comp O (I≡IsCofProp O) .snd ∣ inl refl ∣)))
+      (funext λ j → symm (q O .comp j (I≡IsCofProp j) .snd ∣ inl refl ∣)))
     (FiberExt
-      (symm (q I .comp O (I≡IsCof O) .snd ∣ inr refl ∣))
-      (funext λ j → symm (q I .comp j (I≡IsCof j) .snd ∣ inr refl ∣)))
+      (symm (q I .comp O (I≡IsCofProp O) .snd ∣ inr refl ∣))
+      (funext λ j → symm (q I .comp j (I≡IsCofProp j) .snd ∣ inr refl ∣)))
   where
   q : (i : Int) → _
   q i =

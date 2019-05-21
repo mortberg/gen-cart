@@ -8,14 +8,14 @@ module Data.paths where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 
 ----------------------------------------------------------------------
 -- Path types
 ----------------------------------------------------------------------
 
-enlargeSys : {A : Int → Set} (φ : Cof)
+enlargeSys : {A : Int → Set} (φ : CofProp)
   (f : (t : Int) → [ φ ] → A t)
   (a₀ : A O [ φ ↦ f O ]) (a₁ : A I [ φ ↦ f I ])
   (t : Int) → [ φ ∨ t ≈O ∨ t ≈I ] → A t
@@ -28,7 +28,7 @@ enlargeSys φ f (a₀ , ex₀) (a₁ , ex₁) t =
         (λ {refl → ex₀ u})
         (λ {refl → ex₁ u}))
 
-enlargedExtends : {A : Int → Int → Set} (φ : Cof)
+enlargedExtends : {A : Int → Int → Set} (φ : CofProp)
   (f : (t : Int) → [ φ ∨ t ≈O ∨ t ≈I ] → (i : Int) → A t i)
   (r : Int) (a : (t : Int) → A t r)
   (pφ : (t : Int) → (λ u → f t ∣ inl u ∣ r) ↗ a t)

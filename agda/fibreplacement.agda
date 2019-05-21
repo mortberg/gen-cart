@@ -3,7 +3,7 @@ module fibreplacement where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import wtypesred
 open import hcomp-coe
@@ -15,9 +15,9 @@ module _ {A B : Set} (f : A → B) where
 
   data FRConstr : B → Set where
     dom : (a : A) → FRConstr (f a)
-    fcomp : (r : Int) (p : Int → B) (φ : Cof) (s t : Int) → ∥ t ≡ O ⊎ r ≡ s ∥ → FRConstr (p s)
+    fcomp : (r : Int) (p : Int → B) (φ : CofProp) (s t : Int) → ∥ t ≡ O ⊎ r ≡ s ∥ → FRConstr (p s)
 
-  data FcompArity (r : Int) (p : Int → B) (φ : Cof) : B → Set where
+  data FcompArity (r : Int) (p : Int → B) (φ : CofProp) : B → Set where
     fcompArg : (i : Int) → ∥ [ φ ] ⊎ (r ≡ i) ∥ → FcompArity r p φ (p i)
 
   FRPoly : IxPoly B
@@ -122,7 +122,7 @@ module _ {A B : Set} (f : A → B) where
     }
     where
     module _ (X : Σ B FR → Set) (χ : isFib X)
-      (r : Int) (p : Int → B) (φ : Cof)
+      (r : Int) (p : Int → B) (φ : CofProp)
       (box : (b : B) → FcompArity r p φ b → FR b)
       (boxrec : (b : B) (w' : FcompArity r p φ b) → X (b , box b w'))
       where
@@ -171,11 +171,11 @@ module _ {A B : Set} (f : A → B) where
       compBase =
         ( subst (curry X (p r))
           (cong (fcompTerm r O) (trunc _ _))
-          (fix .comp O (I≡IsCof O) .fst)
+          (fix .comp O (I≡IsCofProp O) .fst)
         , λ u →
           trans
             (cong (subst (curry X (p r)) (cong (fcompTerm r O) (trunc _ _)))
-              (fix .comp O (I≡IsCof O) .snd u))
+              (fix .comp O (I≡IsCofProp O) .snd u))
             (trans
               (substTrans (curry X (p r))
                 (cong (fcompTerm r O) (trunc _ _))
@@ -219,16 +219,16 @@ module _ {A B : Set} (f : A → B) where
 
         capBase : _ [ φ ∨ t ≈O ∨ t ≈I ↦ capTube ◆ I ]
         capBase =
-          ( fix .comp t (I≡IsCof t) .fst
+          ( fix .comp t (I≡IsCofProp t) .fst
           , ∨-elimEq φ (t ≈O ∨ t ≈I)
-            (fix .comp t (I≡IsCof t) .snd)
+            (fix .comp t (I≡IsCofProp t) .snd)
             (∨-elimEq (t ≈O) (t ≈I)
               (λ {refl →
                 adjustSubstEq (curry X (p r))
                   refl (cong (fcompTerm r O) (trunc _ _))
                   (cong (fcompTerm r O) (trunc _ _)) refl
                   (compMain .cap .fst .atI)})
-              (λ {refl → symm (fix .cap (I≡IsCof I))}))
+              (λ {refl → symm (fix .cap (I≡IsCofProp I))}))
           )
 
         capMain =

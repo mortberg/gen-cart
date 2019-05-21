@@ -8,7 +8,7 @@ module Data.functions where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import Data.paths
 
@@ -33,7 +33,7 @@ FibΠid {A} {B} α β r p φ f (g , ex) =
       in
       subst (λ a → B (p s , a))
         (wA .cap .fst .atI)
-        (fix O compUnfixed .comp I (≡IIsCof O) .fst)
+        (fix O compUnfixed .comp I (≡IIsCofProp O) .fst)
       )
     , λ u → funext λ a →
       let open Comp s a
@@ -42,7 +42,7 @@ FibΠid {A} {B} α β r p φ f (g , ex) =
         (symm (wA .cap .fst .atI)) refl
         refl (wA .cap .fst .atI)
         (trans
-          (fix O compUnfixed .comp I (≡IIsCof O) .snd u)
+          (fix O compUnfixed .comp I (≡IIsCofProp O) .snd u)
           (congdep (f u s) (symm (wA .cap .fst .atI))))
     )
   ; cap =
@@ -52,7 +52,7 @@ FibΠid {A} {B} α β r p φ f (g , ex) =
         let open Comp r a in
         trans
           (cong
-            (λ b → subst (λ a → B (p r , a)) (wA .cap .fst .atI) (fix O b .comp I (≡IIsCof O) .fst))
+            (λ b → subst (λ a → B (p r , a)) (wA .cap .fst .atI) (fix O b .comp I (≡IIsCofProp O) .fst))
             (Σext
               (cong (subst (λ a → B (p r , a)) (symm (wA .cap .fst .atO)))
                 (wB .cap .fst .atO))
@@ -117,13 +117,13 @@ FibΠid {A} {B} α β r p φ f (g , ex) =
         ( (λ j →
             subst (λ a → B (p r , a))
               (wA .cap .fst .atI)
-              (fix O (capUnfixedO j) .comp I (≡IIsCof O) .fst))
+              (fix O (capUnfixedO j) .comp I (≡IIsCofProp O) .fst))
         , λ u → funext λ j →
           adjustSubstEq (λ a → B (p r , a))
             (symm (wA .cap .fst .atI)) refl
             refl (wA .cap .fst .atI)
             (trans
-              (fix O (capUnfixedO j) .comp I (≡IIsCof O) .snd u)
+              (fix O (capUnfixedO j) .comp I (≡IIsCofProp O) .snd u)
               (congdep (f u r) (symm (wA .cap .fst .atI))))
         )
         ( (λ _ → g a)
@@ -146,10 +146,10 @@ FibΠid {A} {B} α β r p φ f (g , ex) =
               (symm (wA .cap .fst .atI)) refl
               refl (wA .cap .fst .atI)
               (trans
-                (fix t (capUnfixedBase t) .comp I (≡IIsCof t) .snd u)
+                (fix t (capUnfixedBase t) .comp I (≡IIsCofProp t) .snd u)
                 (congdep (f u r) (symm (wA .cap .fst .atI)))))
           (cong
-            (λ b → subst (λ a → B (p r , a)) (wA .cap .fst .atI) (fix O b .comp I (≡IIsCof O) .fst))
+            (λ b → subst (λ a → B (p r , a)) (wA .cap .fst .atI) (fix O b .comp I (≡IIsCofProp O) .fst))
             (Σext
               (adjustSubstEq (λ a → B (p r , a))
                 refl (wA .cap .fst .atO)
@@ -160,7 +160,7 @@ FibΠid {A} {B} α β r p φ f (g , ex) =
             (symm (wA .cap .fst .atI)) refl
             refl (wA .cap .fst .atI)
             (trans
-              (symm (fix I (capUnfixedBase I) .cap (≡IIsCof I)))
+              (symm (fix I (capUnfixedBase I) .cap (≡IIsCofProp I)))
               (congdep g (symm (wA .cap .fst .atI)))))
           t
       )
@@ -169,7 +169,7 @@ FibΠid {A} {B} α β r p φ f (g , ex) =
       elem t =
         subst (λ a → B (p r , a))
           (wA .cap .fst .atI)
-          (fix t (capUnfixedBase t) .comp I (≡IIsCof t) .fst)
+          (fix t (capUnfixedBase t) .comp I (≡IIsCofProp t) .fst)
 
     fixCap : (t : Int) → B (p r , a) [ φ ∨ t ≈O ∨ t ≈I ↦ fixCapTube t ◆ O ]
     fixCap t =

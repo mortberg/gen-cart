@@ -4,17 +4,17 @@ Realign a fibration structure.
 
 -}
 {-# OPTIONS --rewriting #-}
-module realignment where 
+module realignment where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 
 module Realign {ℓ}{Γ : Set ℓ}
-  (Φ : Γ → Cof) (A : Γ → Set)
+  (Φ : Γ → CofProp) (A : Γ → Set)
   (β : isFib {Γ = res Γ Φ} (A ∘ fst)) (α : isFib A)
-  (r : Int) (p : Int → Γ) (ψ : Cof) (f : [ ψ ] → Π (A ∘ p))
+  (r : Int) (p : Int → Γ) (ψ : CofProp) (f : [ ψ ] → Π (A ∘ p))
   (a₀ : A (p r) [ ψ ↦ f ◆ r ])
   where
   wB : [ ∀I (Φ ∘ p) ] → WComp r (A ∘ p) ψ f a₀
@@ -46,12 +46,12 @@ module Realign {ℓ}{Γ : Set ℓ}
 
   a₀' : A (p r) [ ψ ∨ ∀I (Φ ∘ p) ↦ f' ◆ r ]
   a₀' =
-    ( a₀Fix .comp O (I≡IsCof O) .fst
+    ( a₀Fix .comp O (I≡IsCofProp O) .fst
     , ∨-elimEq ψ (∀I (Φ ∘ p))
-      (λ v → a₀Fix .comp O (I≡IsCof O) .snd ∣ inl v ∣)
+      (λ v → a₀Fix .comp O (I≡IsCofProp O) .snd ∣ inl v ∣)
       (λ u →
         trans
-          (a₀Fix .comp O (I≡IsCof O) .snd ∣ inr u ∣)
+          (a₀Fix .comp O (I≡IsCofProp O) .snd ∣ inr u ∣)
           (symm (wB u .cap .fst .atO)))
     )
 
@@ -79,21 +79,21 @@ module Realign {ℓ}{Γ : Set ℓ}
 
     capBase : A (p r) [ ψ ∨ ∀I (Φ ∘ p) ∨ t ≈O ∨ t ≈I ↦ capTube ◆ I ]
     capBase =
-      ( a₀Fix .comp t (I≡IsCof t) .fst
+      ( a₀Fix .comp t (I≡IsCofProp t) .fst
       , ∨-elimEq ψ (∀I (Φ ∘ p) ∨ t ≈O ∨ t ≈I)
-        (λ v → a₀Fix .comp t (I≡IsCof t) .snd ∣ inl v ∣)
+        (λ v → a₀Fix .comp t (I≡IsCofProp t) .snd ∣ inl v ∣)
         (∨-elimEq (∀I (Φ ∘ p)) (t ≈O ∨ t ≈I)
-          (λ u → a₀Fix .comp t (I≡IsCof t) .snd ∣ inr u ∣)
+          (λ u → a₀Fix .comp t (I≡IsCofProp t) .snd ∣ inr u ∣)
           (∨-elimEq (t ≈O) (t ≈I)
             (λ {refl → wA .cap .fst .atI})
-            (λ {refl → symm (a₀Fix .cap (I≡IsCof I))})))
+            (λ {refl → symm (a₀Fix .cap (I≡IsCofProp I))})))
       )
 
     capComp = α I (λ _ → p r) (ψ ∨ ∀I (Φ ∘ p) ∨ t ≈O ∨ t ≈I) capTube capBase .comp O
 
 abstract
   realignId :
-    (Φ : Int → Cof)
+    (Φ : Int → CofProp)
     (A : Int → Set)
     (β : isFib {Γ = res Int Φ} (A ∘ fst))
     (α : isFib A)
@@ -119,7 +119,7 @@ abstract
     open Realign Φ A β α r p ψ f a₀
 
   isRealignedId :
-    (Φ : Int → Cof)
+    (Φ : Int → CofProp)
     (A : Int → Set)
     (β : isFib {Γ = res Int Φ} (A ∘ fst))
     (α : isFib A)
@@ -136,7 +136,7 @@ abstract
 
 realign :
   ∀{ℓ}{Γ : Set ℓ}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   (A : Γ → Set)
   (β : isFib {Γ = res Γ Φ} (A ∘ fst))
   (α : isFib A)
@@ -152,7 +152,7 @@ realign Φ A β α r p =
 
 isRealigned :
   ∀{ℓ}{Γ : Set ℓ}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   (A : Γ → Set)
   (β : isFib {Γ = res Γ Φ} (A ∘ fst))
   (α : isFib A)
@@ -173,7 +173,7 @@ isRealigned {ℓ} {Γ} Φ A β α =
 
 reindexRealign :
   ∀{ℓ ℓ'} {Δ : Set ℓ} {Γ : Set ℓ'}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   (A : Γ → Set)
   (β : isFib {Γ = res Γ Φ} (A ∘ fst))
   (α : isFib A)

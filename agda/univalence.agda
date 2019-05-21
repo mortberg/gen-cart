@@ -8,7 +8,7 @@ module univalence where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import Data.functions
 open import Data.paths
@@ -48,20 +48,20 @@ module _ {ℓ} {Γ : Set ℓ} {A B : Fib Γ} (P : PathU A B) (x : Γ) (a : A .fs
 
   abstract
     coerce : B .fst x
-    coerce = subst (λ F → F .fst x) (P .atI) (com .comp I (O≡IsCof I) .fst)
+    coerce = subst (λ F → F .fst x) (P .atI) (com .comp I (O≡IsCofProp I) .fst)
 
     coerceFill : PathD A B P x a coerce
     coerceFill =
       pathD
-        (λ i → com .comp i (O≡IsCof i) .fst)
+        (λ i → com .comp i (O≡IsCofProp i) .fst)
         (adjustSubstEq (λ F → F .fst x)
           refl (symm (P .atO))
           (P .atO) refl
-          (com .cap (O≡IsCof O)))
+          (com .cap (O≡IsCofProp O)))
         refl
 
 private
-  ∈OI : ∀ {ℓ} {Γ : Set ℓ} → Γ × Int → Cof
+  ∈OI : ∀ {ℓ} {Γ : Set ℓ} → Γ × Int → CofProp
   ∈OI (_ , i) = (i ≈O) ∨ (i ≈I)
 
   extractOI : (i : Int) → [ i ≈O ∨ i ≈I ] → i ≡ O ⊎ i ≡ I

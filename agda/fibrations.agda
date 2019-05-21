@@ -9,13 +9,13 @@ module fibrations where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 
 ----------------------------------------------------------------------
 -- Weak composition structure
 ----------------------------------------------------------------------
 
-record WComp (r : Int) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
+record WComp (r : Int) (A : Int → Set) (φ : CofProp) (f : [ φ ] → Π A)
   (x₀ : A r [ φ ↦ f ◆ r ]) : Set
   where
   field
@@ -70,14 +70,14 @@ reindexWComp' g f = refl
 -- An extensionality principle for fibration structures
 ----------------------------------------------------------------------
 fibExt : ∀{ℓ}{Γ : Set ℓ}{A : Γ → Set}{α α' : isFib A} →
-  ((r : Int) (p : Int → Γ) (φ : Cof) (f : [ φ ] → Π (A ∘ p)) (a₀ : A (p r) [ φ ↦ f ◆ r ])
+  ((r : Int) (p : Int → Γ) (φ : CofProp) (f : [ φ ] → Π (A ∘ p)) (a₀ : A (p r) [ φ ↦ f ◆ r ])
     → ((s : Int) → α r p φ f a₀ .comp s .fst ≡ α' r p φ f a₀ .comp s .fst)
     × ((t : Int) → α r p φ f a₀ .cap .fst .at t ≡ α' r p φ f a₀ .cap .fst .at t))
   → α ≡ α'
 fibExt {Γ = Γ} {A} {α} {α'} ext =
   funext λ r → funext λ p → funext λ φ → funext λ f → funext λ a₀ → full r p φ f a₀
   where
-  module _ (r : Int) (p : Int → Γ) (φ : Cof) (f : [ φ ] → Π (A ∘ p))
+  module _ (r : Int) (p : Int → Γ) (φ : CofProp) (f : [ φ ] → Π (A ∘ p))
     (a₀ : A (p r) [ φ ↦ f ◆ r ])
     where
     pairEqs : {w w' : WComp r (A ∘ p) φ f a₀}
@@ -160,12 +160,12 @@ FibIso A B iso β r p φ f (a₀ , ex) =
 ----------------------------------------------------------------------
 -- Strict composition
 ----------------------------------------------------------------------
-record SComp (r : Int) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
+record SComp (r : Int) (A : Int → Set) (φ : CofProp) (f : [ φ ] → Π A)
   (x₀ : A r [ φ ↦ f ◆ r ]) : Set
   where
   field
-    comp : (s : Int) → isCof (r ≡ s) → A s [ φ ↦ f ◆ s ]
-    cap : (c : isCof (r ≡ r)) → comp r c .fst ≡ x₀ .fst
+    comp : (s : Int) → isCofProp (r ≡ s) → A s [ φ ↦ f ◆ s ]
+    cap : (c : isCofProp (r ≡ r)) → comp r c .fst ≡ x₀ .fst
 
 open SComp public
 
@@ -185,7 +185,7 @@ strictifyFib A α r p φ f x₀ =
         (symm (strong r c .snd ∣ inr (c .snd .snd refl) ∣)))
   }
   where
-  module _ (s : Int) (c : isCof (r ≡ s))
+  module _ (s : Int) (c : isCofProp (r ≡ s))
     where
 
     r≡s = c .fst

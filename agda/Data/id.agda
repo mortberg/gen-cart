@@ -8,18 +8,18 @@ module Data.id where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import Data.paths
 open import Data.products
 
 postulate
-  _∧_ : (φ : Cof) → ([ φ ] → Cof) → Cof
+  _∧_ : (φ : CofProp) → ([ φ ] → CofProp) → CofProp
   [∧] : ∀ φ ψ → [ φ ∧ ψ ] ≡ Σ [ φ ] ([_] ∘ ψ)
 
   {-# REWRITE [∧] #-}
 
-  cofExt : {φ ψ : Cof} → ([ φ ] → [ ψ ]) → ([ ψ ] → [ φ ]) → φ ≡ ψ
+  cofExt : {φ ψ : CofProp} → ([ φ ] → [ ψ ]) → ([ ψ ] → [ φ ]) → φ ≡ ψ
 
 ----------------------------------------------------------------------
 -- Id types
@@ -27,7 +27,7 @@ postulate
 
 Constancy : ∀{ℓ}{Γ : Set ℓ}(A : Γ → Set)
   → Σ (Σ Γ (λ x → A x × A x)) (Path A) → Set
-Constancy A ((x , (a , a')) , p) = Σ φ ∈ Cof , ([ φ ] → (i : Int) → p .at i ≡ a)
+Constancy A ((x , (a , a')) , p) = Σ φ ∈ CofProp , ([ φ ] → (i : Int) → p .at i ≡ a)
 
 Id : ∀{ℓ}{Γ : Set ℓ}(A : Γ → Set) → Σ x ∈ Γ , A x × A x → Set
 Id {_} {Γ} A = Σ' (Path A) (Constancy A)

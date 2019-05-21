@@ -7,7 +7,7 @@ Cofibrant replacement and definition of (trivial) cofibrations.
 module cofreplacement where
 
 open import prelude
-open import cof
+open import cofprop
 open import fibrations
 open import interval
 open import trivialfib
@@ -15,7 +15,7 @@ open import wtypesred
 open import equivs
 
 crpoly : (A : Set) → Poly
-crpoly A = record { Constr = A ⊎ Cof
+crpoly A = record { Constr = A ⊎ CofProp
                   ; Arity = λ {(inl a) → ∅ ; (inr φ) → [ φ ]}
                   ; Red = λ {(inl a) → (O  ≈I) ; (inr φ) → φ }
                   ; ev = λ {(inl a) → O≠I ; (inr φ) → λ x → x} }
@@ -27,18 +27,18 @@ CR A = WR (crpoly A)
 incl : {A : Set} → A → CR A
 incl a = sup _ (inl a) ∅-elim
 
-fill : {A : Set} (φ : Cof) → (u : [ φ ] → CR A) → CR A
+fill : {A : Set} (φ : CofProp) → (u : [ φ ] → CR A) → CR A
 fill φ u = sup _ (inr φ) u
 
-CR-red : {A : Set} {φ : Cof} (u : [ φ ] → CR A) →
+CR-red : {A : Set} {φ : CofProp} (u : [ φ ] → CR A) →
          (x : [ φ ]) → (fill φ u) ≡ u x
 CR-red u x = red _ (inr _) u x
 
 CR-elim : ∀ {ℓ'} {A : Set} (B : CR A → Set ℓ')
            (b₀ : (a : A) → (B (incl a)))
-           (h : (φ : Cof) → (u : [ φ ] → CR A) →
+           (h : (φ : CofProp) → (u : [ φ ] → CR A) →
                 (f : (x : [ φ ]) → B (u x)) → B (fill φ u)) →
-           (p : (φ : Cof) → (u : [ φ ] → CR A) →
+           (p : (φ : CofProp) → (u : [ φ ] → CR A) →
                 (f : (x : [ φ ]) → B (u x)) →
                 (x : [ φ ]) → (subst B (CR-red u x) (h φ u f)) ≡ f x) →
            (z : CR A) → (B z)
@@ -50,9 +50,9 @@ CR-elim B b₀ h p = WR-elim _ B
 
 CR-β : ∀ {ℓ'} {A : Set} (B : CR A → Set ℓ')
              {b₀ : (a : A) → (B (incl a))}
-             {h : (φ : Cof) → (u : [ φ ] → CR A) →
+             {h : (φ : CofProp) → (u : [ φ ] → CR A) →
                   (f : (x : [ φ ]) → B (u x)) → B (fill φ u)} →
-             {p : (φ : Cof) → (u : [ φ ] → CR A) →
+             {p : (φ : CofProp) → (u : [ φ ] → CR A) →
                   (f : (x : [ φ ]) → B (u x)) →
                   (x : [ φ ]) → (subst B (CR-red u x) (h φ u f)) ≡ f x} →
              (a : A) → (CR-elim B b₀ h p (incl a) ≡ b₀ a)
@@ -101,7 +101,7 @@ module cof-replace {A B : Set} (f : A → B) where
         module _ (X : M → Set) (xtf : isTrivialFib X) (x₀ : (a : A) → X (L a)) where
           X' : (b : B) → CR (SFiber f b) → Set
           X' b z = X (b , z)
-  
+
           lemma1 : (a : A) (b : B) (p : f a ≡ b) → (f a , incl (a , refl)) ≡ (b , incl (a , p))
           lemma1 a .(f a) refl = refl
 
@@ -114,8 +114,8 @@ module cof-replace {A B : Set} (f : A → B) where
               lemma2 : {x y : CR (SFiber f b)} (q : y ≡ x) (z : X' b x) (w : X' b y) →
                        (subst (X' b) (symm q) z ≡ w) → (subst (X' b) q w ≡ z)
               lemma2 refl x y = symm
-                            
-              h : (φ : Cof) (u : [ φ ] → CR (SFiber f b)) →
+
+              h : (φ : CofProp) (u : [ φ ] → CR (SFiber f b)) →
                   (s : (x : [ φ ]) → X' b (u x)) →
                   X' b (fill φ u) [ φ ↦ (λ x → subst (λ c' → X' b c') (symm (CR-red u x)) (s x)) ]
               h φ u s = xtf (b , fill φ u) φ _

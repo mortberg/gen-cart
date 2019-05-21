@@ -4,7 +4,7 @@ module Data.id3 {ℓ} {Γ : Set ℓ} (A : Γ → Set) where
 open import prelude
 open import Data.products
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import fiberwise-total
 open import cofreplacement

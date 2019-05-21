@@ -3,7 +3,7 @@ module retract where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import hcomp-coe
 
@@ -15,10 +15,10 @@ homotopyRetractIsFib : ∀ {ℓ} {Γ : Set ℓ}
 homotopyRetractIsFib A B α β f g ret r p φ h (a₀ , ext) =
   record
   { comp = λ s →
-    ( mainComp s O (gCompBase s) .comp I (≡IIsCof O) .fst
+    ( mainComp s O (gCompBase s) .comp I (≡IIsCofProp O) .fst
     , λ u →
       trans
-        (mainComp s O (gCompBase s) .comp I (≡IIsCof O) .snd u)
+        (mainComp s O (gCompBase s) .comp I (≡IIsCofProp O) .snd u)
         (symm (ret (p s) (h u s) .atI))
     )
   ; cap =
@@ -28,7 +28,7 @@ homotopyRetractIsFib A B α β f g ret r p φ h (a₀ , ext) =
       (trans
         (trans
           (ret (p r) a₀ .atI)
-          (mainComp r I (bRetBase I I) .cap (≡IIsCof I)))
+          (mainComp r I (bRetBase I I) .cap (≡IIsCofProp I)))
         (symm (mainCap I .comp I .snd ∣ inr ∣ inr refl ∣ ∣)))
     , λ t u → mainCap t .comp I .snd ∣ inl u ∣
     )
@@ -81,34 +81,34 @@ homotopyRetractIsFib A B α β f g ret r p φ h (a₀ , ext) =
       ∨-rec φ (t ≈O ∨ t ≈I)
         (λ u _ → h u r)
         (OI-rec t
-          (λ {refl k → mainComp r O (gCompBase r) .comp I (≡IIsCof O) .fst})
-          (λ {refl k → mainComp r k (bRetBase k) .comp I (≡IIsCof k) .fst}))
+          (λ {refl k → mainComp r O (gCompBase r) .comp I (≡IIsCofProp O) .fst})
+          (λ {refl k → mainComp r k (bRetBase k) .comp I (≡IIsCofProp k) .fst}))
         (λ u → ∨-elimEq (t ≈O) (t ≈I)
           (λ {refl → funext λ k →
             trans
-              (mainComp r O (gCompBase r) .comp I (≡IIsCof O) .snd u)
+              (mainComp r O (gCompBase r) .comp I (≡IIsCofProp O) .snd u)
               (symm (ret (p r) (h u r) .atI))})
           λ {refl → funext λ k →
             trans
-              (mainComp r k (bRetBase k) .comp I (≡IIsCof k) .snd u)
+              (mainComp r k (bRetBase k) .comp I (≡IIsCofProp k) .snd u)
               (symm (ret (p r) (h u r) .atI))})
 
     capBase : A (p r) [ φ ∨ t ≈O ∨ t ≈I ↦ capTube ◆ O ]
     capBase =
-      ( mainComp r O gCapBase .comp I (≡IIsCof O) .fst
+      ( mainComp r O gCapBase .comp I (≡IIsCofProp O) .fst
       , ∨-elimEq φ (t ≈O ∨ t ≈I)
         (λ u →
           trans
-            (mainComp r O gCapBase .comp I (≡IIsCof O) .snd u)
+            (mainComp r O gCapBase .comp I (≡IIsCofProp O) .snd u)
             (symm (ret (p r) (h u r) .atI)))
         (OI-elim t _
           (λ {refl →
-            cong (λ base → mainComp r O base .comp I (≡IIsCof O) .fst)
+            cong (λ base → mainComp r O base .comp I (≡IIsCofProp O) .fst)
               (Σext
                 (cong (g (p r)) (symm (bComp .cap .fst .atO)))
                 (funext λ _ → uipImp))})
           λ {refl →
-            cong (λ base → mainComp r O base .comp I (≡IIsCof O) .fst)
+            cong (λ base → mainComp r O base .comp I (≡IIsCofProp O) .fst)
               (Σext
                 (trans
                   (cong (g (p r)) (symm (bComp .cap .fst .atI)))

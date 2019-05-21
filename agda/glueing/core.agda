@@ -8,7 +8,7 @@ module glueing.core where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import equivs
 open import Data.paths
@@ -20,7 +20,7 @@ open import Data.products
 <_,id> : ∀{ℓ}{Γ : Set ℓ} → Γ → Int → Γ × Int
 < x ,id> i = (x , i)
 
-record Glue (Φ : Cof)
+record Glue (Φ : CofProp)
   (T : [ Φ ] → Set)
   (A : Set)
   (f : (u : [ Φ ]) → T u → A) : Set
@@ -35,7 +35,7 @@ open Glue public
 
 Glue' :
   ∀{a}{Γ : Set a}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   (T : res Γ Φ → Set)
   (A : Γ → Set)
   (f : (xu : res Γ Φ) → T xu → A (xu .fst))
@@ -44,7 +44,7 @@ Glue' :
 Glue' Φ T A f x = Glue (Φ x) (λ u → T (x , u)) (A x) (λ u → f (x , u))
 
 glueExt :
-  {Φ : Cof}
+  {Φ : CofProp}
   {T : [ Φ ] → Set}
   {A : Set}
   (f : (u : [ Φ ]) → T u → A)
@@ -57,7 +57,7 @@ glueExt _ (glue t a ft≡a) (glue _ _ ft≡a') refl refl =
   cong (glue t a) (funext λ u → uip (ft≡a u) (ft≡a' u))
 
 FibGlueId :
-  (Φ : Int → Cof)
+  (Φ : Int → CofProp)
   {T : res Int Φ → Set}
   {A : Int → Set}
   (f : (xu : res Int Φ) → T xu → A (xu .fst))
@@ -68,20 +68,20 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
   record
   { comp = λ s →
     ( glue
-      (λ us → R s us .comp O (I≡IsCof O) .fst .fst)
-      (wA' s .comp O (I≡IsCof O) .fst)
+      (λ us → R s us .comp O (I≡IsCofProp O) .fst .fst)
+      (wA' s .comp O (I≡IsCofProp O) .fst)
       (λ us →
         trans
-          (wA' s .comp O (I≡IsCof O) .snd ∣ inl us ∣)
-          (symm (R s us .comp O (I≡IsCof O) .fst .snd .atO)))
+          (wA' s .comp O (I≡IsCofProp O) .snd ∣ inl us ∣)
+          (symm (R s us .comp O (I≡IsCofProp O) .fst .snd .atO)))
     , λ v →
       glueExt (λ u → f (p s , u)) _ _
         (funext λ us →
           cong fst
             (trans
-              (R s us .comp O (I≡IsCof O) .snd v)
+              (R s us .comp O (I≡IsCofProp O) .snd v)
               (symm (C₂ s us (RFiber s us v) .atO))))
-        (wA' s .comp O (I≡IsCof O) .snd ∣ inr v ∣)
+        (wA' s .comp O (I≡IsCofProp O) .snd ∣ inr v ∣)
     )
   ; cap =
     ( path
@@ -174,7 +174,7 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
     wA'Tube : [ Φ (p s) ∨ ψ ] → Int → A (p s)
     wA'Tube =
       ∨-rec (Φ (p s)) ψ
-        (λ us k → R us .comp O (I≡IsCof O) .fst .snd .at k)
+        (λ us k → R us .comp O (I≡IsCofProp O) .fst .snd .at k)
         (λ v _ → q v s .cod)
         (λ us v → funext λ k →
           trans
@@ -182,13 +182,13 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
             (cong (λ fib → fib .snd .at k)
               (trans
                 (C₂ us (RFiber us v) .atO)
-                (symm (R us .comp O (I≡IsCof O) .snd v)))))
+                (symm (R us .comp O (I≡IsCofProp O) .snd v)))))
 
     wA'Base : A (p s) [ Φ (p s) ∨ ψ ↦ wA'Tube ◆ I ]
     wA'Base =
       ( wA .comp s .fst
       , ∨-elimEq (Φ (p s)) ψ
-          (λ us → R us .comp O (I≡IsCof O) .fst .snd .atI)
+          (λ us → R us .comp O (I≡IsCofProp O) .fst .snd .atI)
           (λ v → wA .comp s .snd v)
       )
 
@@ -274,7 +274,7 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
           (λ t≡O k →
             subst (Fiber (f (p r , ur)))
               (wAr≡dO t≡O)
-              (R r ur .comp k (I≡IsCof k) .fst))
+              (R r ur .comp k (I≡IsCofProp k) .fst))
           (λ w k → C̲₂ (R̲Fiber w) .at k)
           (λ {refl →
             ∨-elimEq (t ≈I) ψ
@@ -286,7 +286,7 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
                     (wAr≡dO refl)
                     (FiberExtDep (wAr≡dO refl) refl (funext λ _ → wAr≡dO refl)))
                   (cong (subst (Fiber (f (p r , ur))) (wAr≡dO refl))
-                    (symm (R r ur .comp k (I≡IsCof k) .snd v))))})
+                    (symm (R r ur .comp k (I≡IsCofProp k) .snd v))))})
 
       R̲Base : _ [ t ≈O ∨ t ≈I ∨ ψ ↦ R̲Tube ◆ I ]
       R̲Base =
@@ -296,7 +296,7 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
               trans
                 (congdep (λ b → e (p r , ur) b .fst) (wAr≡dO refl))
                 (cong (subst (Fiber (f (p r , ur))) (wAr≡dO refl))
-                  (R r ur .cap (I≡IsCof I)))})
+                  (R r ur .cap (I≡IsCofProp I)))})
             (λ Iuv → C̲₂ (R̲Fiber Iuv) .atI)
         )
 
@@ -307,7 +307,7 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
       ∨-rec (Φ (p r)) (t ≈O ∨ t ≈I ∨ ψ)
         (λ ur k → R̲ ur .fst .snd .at k)
         (∨-rec (t ≈O) (t ≈I ∨ ψ)
-          (λ {refl k → wA' r .comp k (I≡IsCof k) .fst})
+          (λ {refl k → wA' r .comp k (I≡IsCofProp k) .fst})
           (λ _ _ → d .fst)
           (λ {refl →
             ∨-elimEq (t ≈I) ψ
@@ -317,11 +317,11 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
                   (d .snd ∣ inr ∣ inr v ∣ ∣)
                   (trans
                     (cong cod (ext v))
-                    (symm (wA' r .comp k (I≡IsCof k) .snd ∣ inr v ∣))))}))
+                    (symm (wA' r .comp k (I≡IsCofProp k) .snd ∣ inr v ∣))))}))
         (λ ur → ∨-elimEq (t ≈O) (t ≈I ∨ ψ)
           (λ {refl → funext λ k →
             trans
-              (wA' r .comp k (I≡IsCof k) .snd ∣ inl ur ∣)
+              (wA' r .comp k (I≡IsCofProp k) .snd ∣ inl ur ∣)
               (trans
                 (symm (fiberPathEqDep (wAr≡dO ur refl) refl k))
                 (symm (fiberPathEq (R̲ ur .snd ∣ inl refl ∣) k)))})
@@ -350,7 +350,7 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
                 (d .snd ∣ inl refl ∣)
                 (trans
                   (symm (wA .cap .fst .atO))
-                  (wA' r .cap (I≡IsCof I)))})
+                  (wA' r .cap (I≡IsCofProp I)))})
             (λ _ → refl))
       )
 

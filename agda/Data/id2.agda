@@ -5,7 +5,7 @@ open import prelude
 open import cofreplacement
 open import Data.products
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import trivialfib
 open import Data.paths
@@ -22,9 +22,9 @@ eO-path p = p O
 {- Endpoint maps are both trivial fibrations (we only show eO) -}
 eO-path-tf : {γ : Γ} → (isFib A) → map-isTrivialFib (eO-path {γ})
 eO-path-tf {γ} afib a φ u =
-  ((λ i → fst (comp sc i (O≡IsCof i))) ,
-  cap sc (O≡IsCof O)) ,
-  λ x → Σext (funext (λ i → snd (comp sc i (O≡IsCof i)) x)) (uip _ _)
+  ((λ i → fst (comp sc i (O≡IsCofProp i))) ,
+  cap sc (O≡IsCofProp O)) ,
+  λ x → Σext (funext (λ i → snd (comp sc i (O≡IsCofProp i)) x)) (uip _ _)
   where
     sc = strictifyFib A afib O (λ _ → γ) φ (λ x → fst (u x)) (a , (λ x → snd (u x)))
 
@@ -100,9 +100,9 @@ module _ (afib : isFib A) (γ : Γ) where
 {- Leibniz exponential with an endpoint sends fibrations to trivial fibrations. -}
 path-lift-tf : {ℓ' : Level} {Γ' : Set ℓ'} (C : Γ' → Set) (cfib : isFib C) → isTrivialFib (δ₀⇒ C)
 path-lift-tf C cfib (p , c₀) φ u =
-    ((λ i → fst (comp sc i (O≡IsCof i)))
-      , cap sc (O≡IsCof O))
-    , (λ x → Σext (funext (λ i → snd (comp sc i (O≡IsCof i)) x)) (uip _ _))
+    ((λ i → fst (comp sc i (O≡IsCofProp i)))
+      , cap sc (O≡IsCofProp O))
+    , (λ x → Σext (funext (λ i → snd (comp sc i (O≡IsCofProp i)) x)) (uip _ _))
     where
       u' : [ φ ] → (i : Int) → C (p i)
       u' = fst ∘ u

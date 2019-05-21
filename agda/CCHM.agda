@@ -22,7 +22,7 @@ open import Agda.Builtin.Bool renaming ( Bool to OI ; false to O' ; true to I' )
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 
 ! : OI → OI
@@ -38,7 +38,7 @@ open import fibrations
 ----------------------------------------------------------------------
 
 Comp : OI → (Int → Set) → Set
-Comp e A = (φ : Cof) (f : [ φ ] → Π A) →
+Comp e A = (φ : CofProp) (f : [ φ ] → Π A) →
   A ⟨ e ⟩ [ φ ↦ f ◆ ⟨ e ⟩ ] →
   A ⟨ ! e ⟩ [ φ ↦ f ◆ ⟨ ! e ⟩ ]
 
@@ -135,7 +135,7 @@ isCCHMFib→isFib {Γ = Γ} A α r p φ f x₀ = record
 !! true = refl
 !! false = refl
 
-_≈OI_ : Int → OI → Cof
+_≈OI_ : Int → OI → CofProp
 r ≈OI O' = r ≈O
 r ≈OI I' = r ≈I
 
@@ -175,7 +175,7 @@ cnxei!e=i I' i = refl
 
 {-# REWRITE cnxeei=e cnxeie=e cnx!eei=i cnx!eie=i cnxe!ei=i cnxei!e=i #-}
 
-record Fill (e : OI) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
+record Fill (e : OI) (A : Int → Set) (φ : CofProp) (f : [ φ ] → Π A)
             (x₀ : A ⟨ e ⟩ [ φ ↦ f ◆ ⟨ e ⟩ ]) : Set where
   field
     fill : (r : Int) → A r [ φ ↦ f ◆ r ]
@@ -184,7 +184,7 @@ record Fill (e : OI) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
 open Fill public
 
 hasFill : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → Set ℓ
-hasFill {Γ = Γ} A = (e : OI) (p : Int → Γ) (φ : Cof) (f : [ φ ] → Π (A ∘ p))
+hasFill {Γ = Γ} A = (e : OI) (p : Int → Γ) (φ : CofProp) (f : [ φ ] → Π (A ∘ p))
             (x₀ : A (p ⟨ e ⟩) [ φ ↦ f ◆ ⟨ e ⟩ ]) → Fill e (A ∘ p) φ f x₀
 
 isCCHMFib→Fill : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → isCCHMFib A → hasFill A
@@ -194,7 +194,7 @@ isCCHMFib→Fill A α e p φ f x₀ = record
   }
   where
   module _ (r : Int) where
-    φ∨r≡e : Cof
+    φ∨r≡e : CofProp
     φ∨r≡e = φ ∨ (r ≈OI e)
     f' : [ φ∨r≡e ] → (i : Int) → A (p (cnx e i r))
     f' = ∨-rec φ (r ≈OI e)
@@ -204,7 +204,7 @@ isCCHMFib→Fill A α e p φ f x₀ = record
     a = α e (λ i → p (cnx e i r)) φ∨r≡e f'
           (x₀ .fst , ∨-elimEq φ (r ≈OI e) (snd x₀) (λ {refl → refl}))
 
-record Squeeze (r : Int) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
+record Squeeze (r : Int) (A : Int → Set) (φ : CofProp) (f : [ φ ] → Π A)
             (x₀ : A r [ φ ↦ f ◆ r ]) : Set where
   field
     squeeze : (e : OI) → A ⟨ e ⟩ [ φ ↦ f ◆ ⟨ e ⟩ ]
@@ -213,7 +213,7 @@ record Squeeze (r : Int) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
 open Squeeze public
 
 hasSqueeze : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → Set ℓ
-hasSqueeze {Γ = Γ} A = (r : Int) (p : Int → Γ) (φ : Cof) (f : [ φ ] → Π (A ∘ p))
+hasSqueeze {Γ = Γ} A = (r : Int) (p : Int → Γ) (φ : CofProp) (f : [ φ ] → Π (A ∘ p))
             (x₀ : A (p r) [ φ ↦ f ◆ r ]) → Squeeze r (A ∘ p) φ f x₀
 
 isCCHMFib→Squeeze : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → isCCHMFib A → hasSqueeze A

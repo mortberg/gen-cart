@@ -10,7 +10,7 @@ open import glueing.core
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import equivs
 open import Data.paths
@@ -21,7 +21,7 @@ open import strictness-axioms
 -- Strict glueing
 ----------------------------------------------------------------------
 includeA :
-  (φ : Cof)
+  (φ : CofProp)
   {A : [ φ ] → Set}
   {B : Set}
   (f : (u : [ φ ]) → A u → B)
@@ -39,7 +39,7 @@ includeA φ {A} {B} f u a =
   moveMove v = Σext (cofIsProp φ _ _) refl
 
 includeAIso :
-  (φ : Cof)
+  (φ : CofProp)
   {A : [ φ ] → Set}
   {B : Set}
   (w : (u : [ φ ]) → A u → B)
@@ -63,7 +63,7 @@ includeAIso φ {A} {B} w u = iso
       glueExt w (includeA φ w u (gl .dom u)) gl (parEq prfIr) (gl .match u)
 
 SGlue :
-  (φ : Cof)
+  (φ : CofProp)
   (A : [ φ ] → Set)
   (B : Set)
   (f : (u : [ φ ]) → A u → B)
@@ -72,7 +72,7 @@ SGlue :
 SGlue φ A B f = strictify φ A (Glue φ A B f) (includeAIso φ f)
 
 strictifyGlueIso :
-  (φ : Cof)
+  (φ : CofProp)
   {A : [ φ ] → Set}
   {B : Set}
   (f : (u : [ φ ]) → A u → B)
@@ -81,7 +81,7 @@ strictifyGlueIso :
 strictifyGlueIso φ {A} {B} f = isoB φ A (Glue φ A B f) (includeAIso φ f)
 
 sglue :
-  {φ : Cof}
+  {φ : CofProp}
   {A : [ φ ] → Set}
   {B : Set}
   (f : (u : [ φ ]) → A u → B)
@@ -90,7 +90,7 @@ sglue :
 sglue {φ} f u = strictifyGlueIso φ f .from ∘ includeA φ f u
 
 sunglue :
-  {φ : Cof}
+  {φ : CofProp}
   {A : [ φ ] → Set}
   {B : Set}
   (f : (u : [ φ ]) → A u → B)
@@ -99,7 +99,7 @@ sunglue :
 sunglue {φ} f = cod ∘ strictifyGlueIso φ f .to
 
 SGlueStrictness :
-  (φ : Cof)
+  (φ : CofProp)
   {A : [ φ ] → Set}
   {B : Set}
   (f : (u : [ φ ]) → A u → B)
@@ -110,7 +110,7 @@ SGlueStrictness φ {A} {B} f u =
   restrictsToA φ A (Glue φ A B f) (includeAIso φ f) u
 
 sunglue-boundary :
-  (φ : Cof)
+  (φ : CofProp)
   {A : [ φ ] → Set}
   {B : Set}
   (f : (u : [ φ ]) → A u → B)
@@ -141,7 +141,7 @@ sunglue-boundary φ {A} {B} f u a =
 
 SGlue' :
   ∀{a}{Γ : Set a}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   (A : res Γ Φ → Set)
   (B : Γ → Set)
   (f : (xu : res Γ Φ) → A xu → B (xu .fst))
@@ -151,7 +151,7 @@ SGlue' Φ A B f x = SGlue (Φ x) (λ u → A (x , u)) (B x) (λ u → f (x , u))
 
 strictifyGlueIso' :
   ∀{a}{Γ : Set a}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   {A : res Γ Φ → Set}
   {B : Γ → Set}
   (f : (xu : res Γ Φ) → A xu → B (xu .fst))
@@ -161,7 +161,7 @@ strictifyGlueIso' Φ {A} {B} f x = strictifyGlueIso (Φ x) (λ u → f (x , u))
 
 SGlueStrictness' :
   ∀{a}{Γ : Set a}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   {A : res Γ Φ → Set}
   {B : Γ → Set}
   (f : (xu : res Γ Φ) → A xu → B (xu .fst))
@@ -174,7 +174,7 @@ module Misaligned where
 
   abstract
     FibSGlueId :
-      (Φ : Int → Cof)
+      (Φ : Int → CofProp)
       {A : res Int Φ → Set}
       {B : Int → Set}
       (f : (xu : res Int Φ) → A xu → B (xu .fst))
@@ -186,7 +186,7 @@ module Misaligned where
 
   FibSGlue :
     ∀{a}{Γ : Set a}
-    (Φ : Γ → Cof)
+    (Φ : Γ → CofProp)
     {A : res Γ Φ → Set}
     {B : Γ → Set}
     (f : (xu : res Γ Φ) → A xu → B (xu .fst))
@@ -204,7 +204,7 @@ module Misaligned where
 
   reindexFibSGlue :
     ∀ {ℓ} {Δ Γ : Set ℓ}
-    (Φ : Γ → Cof)
+    (Φ : Γ → CofProp)
     {A : res Γ Φ → Set}
     {B : Γ → Set}
     (f : (xu : res Γ Φ) → A xu → B (xu .fst))

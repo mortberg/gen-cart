@@ -8,7 +8,7 @@ module Data.products where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import Data.paths
 
@@ -88,12 +88,12 @@ FibΣid {A} {B} α β r p φ f ((a₀ , b₀) , ex₀) =
   b₀Fixed : B (pcomp r) [ φ ↦ fB ◆ r ]
   b₀Fixed =
     ( subst (λ a → B (p r , a)) (wA .cap .fst .atO)
-        (b₀Fix .comp O (I≡IsCof O) .fst)
+        (b₀Fix .comp O (I≡IsCofProp O) .fst)
     , λ u →
       adjustSubstEq (λ a → B (p r , a))
         (wA .cap .snd O u) refl
         (wA .comp r .snd u) (wA .cap .fst .atO)
-        (b₀Fix .comp O (I≡IsCof O) .snd u)
+        (b₀Fix .comp O (I≡IsCofProp O) .snd u)
     )
 
   wB : WComp r (B ∘ pcomp) φ fB b₀Fixed
@@ -134,9 +134,9 @@ FibΣid {A} {B} α β r p φ f ((a₀ , b₀) , ex₀) =
   c : (t : Int) → B (pcap t) [ φ ∨ t ≈O ∨ t ≈I ↦ csys t ◆ O ]
   c t =
     β I (λ _ → pcap t) (φ ∨ t ≈O ∨ t ≈I) (csys t)
-      ( b₀Fix .comp t (I≡IsCof t) .fst
-      , enlargedExtends φ csys I (λ t → b₀Fix .comp t (I≡IsCof t) .fst)
-          (λ t → b₀Fix .comp t (I≡IsCof t) .snd)
+      ( b₀Fix .comp t (I≡IsCofProp t) .fst
+      , enlargedExtends φ csys I (λ t → b₀Fix .comp t (I≡IsCofProp t) .fst)
+          (λ t → b₀Fix .comp t (I≡IsCofProp t) .snd)
           (adjustSubstEq (λ a → B (p r , a))
             refl (wA .cap .fst .atO)
             (symm (wA .cap .fst .atO)) refl
@@ -144,7 +144,7 @@ FibΣid {A} {B} α β r p φ f ((a₀ , b₀) , ex₀) =
           (adjustSubstEq (λ a → B (p r , a))
             (symm (wA .cap .fst .atI)) refl
             (symm (wA .cap .fst .atI)) refl
-            (symm (b₀Fix .cap (I≡IsCof I))))
+            (symm (b₀Fix .cap (I≡IsCofProp I))))
           t
       )
       .comp O

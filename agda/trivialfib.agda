@@ -8,7 +8,7 @@ fibrations.
 module trivialfib where
 
 open import prelude
-open import cof
+open import cofprop
 open import fibrations
 open import interval
 open import equivs
@@ -76,7 +76,7 @@ SContrToPaths : {A : Int → Set} (tf : isTrivialFib A) (a : A O) (a' : A I) →
 SContrToPaths {A} tf a a' =
   path p e0 e1
   where
-    φ : Int → Cof
+    φ : Int → CofProp
     φ i = (i ≈O) ∨ (i ≈I)
 
     u : (i : Int) → [ φ i ] → A i

@@ -11,7 +11,7 @@ open import glueing.strict
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import equivs
 open import realignment
@@ -22,7 +22,7 @@ open import realignment
 
 FibSGlue :
   ∀{a}{Γ : Set a}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   {A : res Γ Φ → Set}
   {B : Γ → Set}
   (f : (xu : res Γ Φ) → A xu → B (xu .fst))
@@ -37,7 +37,7 @@ FibSGlue {a} {Γ} Φ {A} {B} f equiv α β =
 FibSGlueStrictness :
   {ℓ : Level}
   {Γ : Set ℓ}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   {A : res Γ Φ → Set}
   {B : Γ → Set}
   (f : (xu : res Γ Φ) → A xu → B (xu .fst))
@@ -53,7 +53,7 @@ FibSGlueStrictness Φ {A} {B} f equiv α β =
 
 SGlueFib :
   ∀{a}{Γ : Set a}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   (Aα : Fib (res Γ Φ))
   (Bβ : Fib Γ)
   (f : (xu : res Γ Φ) → Aα .fst xu → Bβ .fst (xu .fst))
@@ -65,7 +65,7 @@ SGlueFib {a} {Γ} Φ (A , α) (B , β) f equiv =
 
 SGlueFibStrictness :
   ∀{ℓ}{Γ : Set ℓ}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   (Aα : Fib (res Γ Φ))
   (Bβ : Fib Γ)
   (f : (xu : res Γ Φ) → Aα .fst xu → Bβ .fst (xu .fst))
@@ -76,7 +76,7 @@ SGlueFibStrictness Φ (A , α) (B , β) f equiv =
 
 reindexFibSGlue :
   ∀ {ℓ} {Δ Γ : Set ℓ}
-  (Φ : Γ → Cof)
+  (Φ : Γ → CofProp)
   {A : res Γ Φ → Set}
   {B : Γ → Set}
   (f : (xu : res Γ Φ) → A xu → B (xu .fst))

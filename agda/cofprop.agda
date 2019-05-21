@@ -6,7 +6,7 @@ operations on these.
 -}
 {-# OPTIONS --rewriting #-}
 
-module cof where
+module cofprop where
 
 open import prelude
 open import interval
@@ -19,22 +19,22 @@ infix  5 _↗_
 ----------------------------------------------------------------------
 
 postulate
-  Cof : Set
-  [_] : Cof → Set
+  CofProp : Set
+  [_] : CofProp → Set
 
-  _≈O _≈I O≈_ I≈_ : (i : Int) → Cof
+  _≈O _≈I O≈_ I≈_ : (i : Int) → CofProp
   [≈O] : ∀ i → [ i ≈O ] ≡ (i ≡ O)
   [≈I] : ∀ i → [ i ≈I ] ≡ (i ≡ I)
 
-  _∨_ : Cof → Cof → Cof
+  _∨_ : CofProp → CofProp → CofProp
   [∨] : ∀ φ ψ → [ φ ∨ ψ ] ≡ ∥ [ φ ] ⊎ [ ψ ] ∥
 
-  ∀I : (Int → Cof) → Cof
+  ∀I : (Int → CofProp) → CofProp
   [∀I] : ∀ φ → [ ∀I φ ] ≡ ((i : Int) → [ φ i ])
 
   {-# REWRITE [≈O] [≈I] [∨] [∀I] #-}
 
-  cofIsProp : (φ : Cof) → (u v : [ φ ]) → u ≡ v
+  cofIsProp : (φ : CofProp) → (u v : [ φ ]) → u ≡ v
 
 ----------------------------------------------------------------------
 -- Cofibrant-partial function classifier
@@ -47,44 +47,44 @@ _◆_ : ∀ {ℓ ℓ'} {A : Set ℓ} {B : Int → Set ℓ'}
        → (A → (i : Int) → B i) → (i : Int) → A → B i
 (f ◆ i) a = f a i
 
-_[_↦_] : ∀ {ℓ} (A : Set ℓ) (φ : Cof) → ([ φ ] → A) → Set ℓ
+_[_↦_] : ∀ {ℓ} (A : Set ℓ) (φ : CofProp) → ([ φ ] → A) → Set ℓ
 A [ φ ↦ f ] = Σ a ∈ A , f ↗ a
 
 ----------------------------------------------------------------------
 -- Restricting a context by a cofibrant propositions
 ----------------------------------------------------------------------
-res : ∀ {ℓ} (Γ : Set ℓ) (Φ : Γ → Cof) → Set ℓ
+res : ∀ {ℓ} (Γ : Set ℓ) (Φ : Γ → CofProp) → Set ℓ
 res Γ Φ = Σ x ∈ Γ , [ Φ x ]
 
 ----------------------------------------------------------------------
 -- Property of being a cofibration
 ----------------------------------------------------------------------
-isCof : ∀ {ℓ} (A : Set ℓ) → Set ℓ
-isCof A = Σ φ ∈ Cof , ([ φ ] → A) × (A → [ φ ])
+isCofProp : ∀ {ℓ} (A : Set ℓ) → Set ℓ
+isCofProp A = Σ φ ∈ CofProp , ([ φ ] → A) × (A → [ φ ])
 
-≡OIsCof : (i : Int) → isCof (i ≡ O)
-≡OIsCof i = i ≈O , id , id
+≡OIsCofProp : (i : Int) → isCofProp (i ≡ O)
+≡OIsCofProp i = i ≈O , id , id
 
-≡IIsCof : (i : Int) → isCof (i ≡ I)
-≡IIsCof i = i ≈I , id , id
+≡IIsCofProp : (i : Int) → isCofProp (i ≡ I)
+≡IIsCofProp i = i ≈I , id , id
 
-O≡IsCof : (i : Int) → isCof (O ≡ i)
-O≡IsCof i = i ≈O , symm , symm
+O≡IsCofProp : (i : Int) → isCofProp (O ≡ i)
+O≡IsCofProp i = i ≈O , symm , symm
 
-I≡IsCof : (i : Int) → isCof (I ≡ i)
-I≡IsCof i = i ≈I , symm , symm
+I≡IsCofProp : (i : Int) → isCofProp (I ≡ i)
+I≡IsCofProp i = i ≈I , symm , symm
 
 ----------------------------------------------------------------------
 -- Compatible partial functions
 ----------------------------------------------------------------------
 □ : ∀ {ℓ} → Set ℓ → Set ℓ
-□ A = Σ φ ∈ Cof , ([ φ ] → A)
+□ A = Σ φ ∈ CofProp , ([ φ ] → A)
 
 _⌣_ : ∀ {ℓ} {A : Set ℓ} → □ A → □ A → Set ℓ
 (φ , f) ⌣ (ψ , g) = (u : [ φ ]) (v : [ ψ ]) → f u ≡ g v
 
 ∨-rec : ∀ {ℓ}
-  (φ ψ : Cof)
+  (φ ψ : CofProp)
   {A : Set ℓ}
   (f : [ φ ] → A)
   (g : [ ψ ] → A)
@@ -114,7 +114,7 @@ OI-rec r f g =
   ∨-rec (r ≈O) (r ≈I) f g (λ {refl r≡I → O≠I r≡I})
 
 ∨-elim : ∀ {ℓ}
-  (φ ψ : Cof)
+  (φ ψ : CofProp)
   (P : [ φ ∨ ψ ] → Set ℓ)
   (f : (u : [ φ ]) → P ∣ inl u ∣)
   (g : (v : [ ψ ]) → P ∣ inr v ∣)
@@ -160,7 +160,7 @@ OI-elim r A f g =
   ∨-elim (r ≈O) (r ≈I) A f g (λ {refl r≡I → O≠I r≡I})
 
 ∨-elimEq : ∀ {ℓ}
-  (φ ψ : Cof) {A : Set ℓ}
+  (φ ψ : CofProp) {A : Set ℓ}
   {f g : [ φ ∨ ψ ] → A}
   → ((u : [ φ ]) → f ∣ inl u ∣ ≡ g ∣ inl u ∣)
   → ((v : [ ψ ]) → f ∣ inr v ∣ ≡ g ∣ inr v ∣)

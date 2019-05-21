@@ -9,7 +9,7 @@ module hcomp-coe where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 
 isHFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → Set ℓ
@@ -57,7 +57,7 @@ H+Coe→Fib A η κ r p φ f a₀ = record
       (trans
         (trans
           (κ r p (a₀ .fst) .cap .atI)
-          (d I .cap (≡IIsCof I)))
+          (d I .cap (≡IIsCofProp I)))
         (symm (fixedCap I .snd ∣ inr ∣ inr refl ∣ ∣)))
     , λ t u → fixedCap t .snd ∣ inl u ∣
     )
@@ -89,7 +89,7 @@ H+Coe→Fib A η κ r p φ f a₀ = record
       , λ u → trans (h .comp s .snd u) (κ s p (f u s) .cap .atO)
       )
 
-    fixedComp = strictη O (p s) φ (capTube s) fixedBase .comp I (≡IIsCof O)
+    fixedComp = strictη O (p s) φ (capTube s) fixedBase .comp I (≡IIsCofProp O)
 
   module _ (k : Int) where
 
@@ -109,7 +109,7 @@ H+Coe→Fib A η κ r p φ f a₀ = record
       , λ u → trans (h r .cap .snd t u) (κ r p (f u r) .cap .atO)
       )
 
-    c = strictη O (p r) φ (capTube r) cBase .comp I (≡IIsCof O)
+    c = strictη O (p r) φ (capTube r) cBase .comp I (≡IIsCofProp O)
 
     fixedCapTube : [ φ ∨ t ≈O ∨ t ≈I ] → Int → A (p r)
     fixedCapTube =
@@ -117,12 +117,12 @@ H+Coe→Fib A η κ r p φ f a₀ = record
         (λ u _ → f u r)
         (OI-rec t
           (λ {refl k → fixedComp r .fst})
-          (λ {refl k → d k .comp I (≡IIsCof k) .fst}))
+          (λ {refl k → d k .comp I (≡IIsCofProp k) .fst}))
         (λ u → ∨-elimEq (t ≈O) (t ≈I)
           (λ {refl → funext λ k →
             trans (fixedComp r .snd u) (symm (κ r p (f u r) .cap .atI))})
           (λ {refl → funext λ k →
-            trans (d k .comp I (≡IIsCof k) .snd u) (symm (κ r p (f u r) .cap .atI))}))
+            trans (d k .comp I (≡IIsCofProp k) .snd u) (symm (κ r p (f u r) .cap .atI))}))
 
     fixedCapBase : A (p r) [ φ ∨ t ≈O ∨ t ≈I ↦ fixedCapTube ◆ O ]
     fixedCapBase =
@@ -131,10 +131,10 @@ H+Coe→Fib A η κ r p φ f a₀ = record
         (λ u → trans (c .snd u) (symm (κ r p (f u r) .cap .atI)))
         (∨-elimEq (t ≈O) (t ≈I)
           (λ {refl →
-            cong (λ a → strictη O (p r) φ (capTube r) a .comp I (≡IIsCof O) .fst)
+            cong (λ a → strictη O (p r) φ (capTube r) a .comp I (≡IIsCofProp O) .fst)
               (Σext (symm (h r .cap .fst .atO)) (funext λ _ → uipImp))})
           (λ {refl →
-            cong (λ a → strictη O (p r) φ (capTube r) a .comp I (≡IIsCof O) .fst)
+            cong (λ a → strictη O (p r) φ (capTube r) a .comp I (≡IIsCofProp O) .fst)
               (Σext
                 (trans (symm (h r .cap .fst .atI)) (κ r p (a₀ .fst) .cap .atO))
                 (funext λ _ → uipImp))}))

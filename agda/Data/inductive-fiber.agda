@@ -3,7 +3,7 @@ module Data.inductive-fiber {ℓ} {Γ : Set ℓ} {A B : Γ → Set} (f : ∀ x �
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import wtypesred
 open import hcomp-coe

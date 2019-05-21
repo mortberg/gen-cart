@@ -7,13 +7,13 @@ W-types with reductions.
 module wtypesred {ℓ} where
 
 open import prelude
-open import cof
+open import cofprop
 
 record Poly : Set (lsuc ℓ) where
   field
     Constr : Set ℓ
     Arity : Constr → Set ℓ
-    Red : Constr → Cof
+    Red : Constr → CofProp
     ev : (c : Constr) → [ Red c ] → (Arity c)
 
 module _ (P : Poly) where
@@ -43,7 +43,7 @@ record IxPoly (I : Set) : Set (lsuc ℓ) where
   field
     Constr : I → Set ℓ
     Arity : {i : I} → Constr i → I → Set ℓ
-    Red : {i : I} → Constr i → Cof
+    Red : {i : I} → Constr i → CofProp
     ev : {i : I} → (c : Constr i) → [ Red c ] → (Arity c i)
 
 module _ {I : Set} (P : IxPoly I) where

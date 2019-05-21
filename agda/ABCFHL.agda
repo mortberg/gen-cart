@@ -21,21 +21,21 @@ module ABCFHL where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 
 -- Assume that r≡s is a cofibration
 postulate
-  diagCof : (r s : Int) → Cof
+  diagCof : (r s : Int) → CofProp
   [diagCof] : (r s : Int) → [ diagCof r s ] ≡ (r ≡ s)
 
   {-# REWRITE [diagCof] #-}
 
-diagIsCof : (r s : Int) → isCof (r ≡ s)
-diagIsCof r s = (diagCof r s , id , id)
+diagIsCofProp : (r s : Int) → isCofProp (r ≡ s)
+diagIsCofProp r s = (diagCof r s , id , id)
 
 -- ABCFHL fibrations
-record ABCFHLComp (r : Int) (A : Int → Set) (φ : Cof) (f : [ φ ] → Π A)
+record ABCFHLComp (r : Int) (A : Int → Set) (φ : CofProp) (f : [ φ ] → Π A)
   (x₀ : A r [ φ ↦ f ◆ r ]) : Set
   where
   field
@@ -49,8 +49,8 @@ isABCFHLFib {Γ = Γ} A = ∀ r p φ f x₀ → ABCFHLComp r (A ∘ p) φ f x₀
 
 isFib→isABCFHLFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → isFib A → isABCFHLFib A
 isFib→isABCFHLFib A α r p ϕ f x₀ = record
-  { comp = λ s → strictifyFib A α r p ϕ f x₀ .comp s (diagIsCof r s)
-  ; cap  = strictifyFib A α r p ϕ f x₀ .cap (diagIsCof r r)
+  { comp = λ s → strictifyFib A α r p ϕ f x₀ .comp s (diagIsCofProp r s)
+  ; cap  = strictifyFib A α r p ϕ f x₀ .cap (diagIsCofProp r r)
   }
 
 isABCFHLFib→isFib : ∀ {ℓ} {Γ : Set ℓ} (A : Γ → Set) → isABCFHLFib A → isFib A
@@ -64,14 +64,14 @@ isABCFHLFib→isFib A α r p ϕ f x₀ = record
 -- https://github.com/riaqn/orton/blob/master/src/fibrations.agda
 private
   Comp : (Int → Set) → Set
-  Comp A = (φ : Cof) (f : [ φ ] → Π A) → (e₀ e₁ : Int)
+  Comp A = (φ : CofProp) (f : [ φ ] → Π A) → (e₀ e₁ : Int)
            (h₀ : A e₀ [ φ ↦ f ◆ e₀ ])
            → A e₁ [ φ ↦ f ◆ e₁ ]
 
   -- This definition of the cap condition is a bit messy to work with
   -- compared to ABCFHL fibrations as it involves equality in a Σ-type
   Reduce : {A : Int → Set} → (c : Comp A) → Set
-  Reduce {A = A} c = (φ : Cof) (f : [ φ ] → Π A) (e : Int) →
+  Reduce {A = A} c = (φ : CofProp) (f : [ φ ] → Π A) (e : Int) →
                      (h : A e [ φ ↦ f ◆ e ]) →
                      c φ f e e h ≡ h
 

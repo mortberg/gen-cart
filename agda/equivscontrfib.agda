@@ -2,7 +2,7 @@
 
 Equivalent definition of isFib due to Dan Licata
 
-  A : I → Set has weak Kan composition iff 
+  A : I → Set has weak Kan composition iff
   Π r:I, the map (λ f → f r) : (Π (x : I) → A x) → (A r) is an equivalence
 
 -}
@@ -11,7 +11,7 @@ module equivscontrfib where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import equivs using (SContr ; Fiber ; FiberExt ; EquivSContr)
 
@@ -58,10 +58,10 @@ isFib→isEquivSContrFib A α r p a₀ φ t =
     strictifyFib A α I (λ _ → p r) φ (λ u → q u .at) (a₀ , λ u → q u .atI)
 
   f+ = α r p φ f
-    ( a₀Fix .comp O (I≡IsCof O) .fst
+    ( a₀Fix .comp O (I≡IsCofProp O) .fst
     , λ u →
       trans
-        (a₀Fix .comp O (I≡IsCof O) .snd u)
+        (a₀Fix .comp O (I≡IsCofProp O) .snd u)
         (symm (q u .atO)))
 
   module _ (s : Int) where
@@ -79,12 +79,12 @@ isFib→isEquivSContrFib A α r p a₀ φ t =
 
     q+Base : A (p r) [ φ ∨ s ≈O ∨ s ≈I ↦ q+Tube ◆ I ]
     q+Base =
-      ( a₀Fix .comp s (I≡IsCof s) .fst
+      ( a₀Fix .comp s (I≡IsCofProp s) .fst
       , ∨-elimEq φ (s ≈O ∨ s ≈I)
-        (λ u → a₀Fix .comp s (I≡IsCof s) .snd u)
+        (λ u → a₀Fix .comp s (I≡IsCofProp s) .snd u)
         (∨-elimEq (s ≈O) (s ≈I)
           (λ {refl → f+ .cap .fst .atI})
-          λ {refl → symm (a₀Fix .cap (I≡IsCof I))})
+          λ {refl → symm (a₀Fix .cap (I≡IsCofProp I))})
       )
 
     q+ = α I (λ _ → p r) (φ ∨ s ≈O ∨ s ≈I) q+Tube q+Base .comp O

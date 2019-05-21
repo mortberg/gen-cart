@@ -3,7 +3,7 @@ module fiberwise-total where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import wtypesred
 open import Data.products
@@ -17,12 +17,12 @@ fiberwise+total→isFib A B α fβ tβ r pa φ f (b₀ , ext) = record
   { comp = λ s →
     ( subst (B (p s))
         (symm (aFix I .comp s .snd ∣ inr ∣ inr refl ∣ ∣))
-        (actual s .comp I (O≡IsCof I) .fst)
+        (actual s .comp I (O≡IsCofProp I) .fst)
     , λ u →
       adjustSubstEq (B (p s))
         (aFix I .comp s .snd ∣ inl u ∣) refl
         refl (symm (aFix I .comp s .snd ∣ inr ∣ inr refl ∣ ∣))
-        (actual s .comp I (O≡IsCof I) .snd u)
+        (actual s .comp I (O≡IsCofProp I) .snd u)
     )
   ; cap =
     ( path
@@ -126,7 +126,7 @@ fiberwise+total→isFib A B α fβ tβ r pa φ f (b₀ , ext) = record
           (λ {refl j →
             subst (B (p r))
               (symm (aFix j .cap .fst .atO))
-              (actual r .comp j (O≡IsCof j) .fst)})
+              (actual r .comp j (O≡IsCofProp j) .fst)})
           (λ {refl j →
             subst (B (p r))
               (symm (aFix j .cap .fst .atI))
@@ -136,7 +136,7 @@ fiberwise+total→isFib A B α fβ tβ r pa φ f (b₀ , ext) = record
             adjustSubstEq (B (p r))
               (aFix j .comp r .snd ∣ inl u ∣) refl
               (aFix j .cap .snd O ∣ inl u ∣) (symm (aFix j .cap .fst .atO))
-              (actual r .comp j (O≡IsCof j) .snd u)})
+              (actual r .comp j (O≡IsCofProp j) .snd u)})
           (λ {refl → funext λ j →
             adjustSubstEq (B (p r))
               (cong fst (total .cap .snd j u)) refl
@@ -163,7 +163,7 @@ fiberwise+total→isFib A B α fβ tβ r pa φ f (b₀ , ext) = record
             adjustSubstEq (B (p r))
               refl (aFix O .comp r .snd ∣ inr ∣ inl refl ∣ ∣)
               (symm (aFix O .cap .fst .atO)) (aFix O .cap .snd O ∣ inr ∣ inl refl ∣ ∣)
-              (actual r .cap (O≡IsCof O))})
+              (actual r .cap (O≡IsCofProp O))})
           λ {refl →
             adjustSubstEq (B (p r))
               (cong fst (total .cap .fst .atO)) refl

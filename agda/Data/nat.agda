@@ -7,7 +7,7 @@ module Data.nat where
 
 open import prelude
 open import interval
-open import cof
+open import cofprop
 open import fibrations
 open import hcomp-coe
 

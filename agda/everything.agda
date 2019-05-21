@@ -2,7 +2,7 @@ module everything where
 
 open import ABCFHL
 open import CCHM
-open import cof
+open import cofprop
 open import cofreplacement
 open import Data.functions
 open import Data.id
