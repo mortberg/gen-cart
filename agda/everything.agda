@@ -21,6 +21,7 @@ open import glueing.core
 open import glueing.strict
 open import hcomp-coe
 open import interval
+open import nonempty
 open import prelude
 open import pushout
 open import realignment
