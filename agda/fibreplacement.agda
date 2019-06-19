@@ -6,7 +6,6 @@ open import interval
 open import cofprop
 open import fibrations
 open import wtypesred
-open import hcomp-coe
 open import cofreplacement
 
 open triv-cofibration public
@@ -28,7 +27,7 @@ module _ {A B : Set} (f : A → B) where
       ; (fcomp r p φ s t w) → FcompArity r p φ
       }
     ; Red = λ
-      { (dom a) → O ≈I
+      { (dom a) → ⊥
       ; (fcomp r p φ s t w) → φ ∨ t ≈I
       }
     ; ev = λ {b} → λ

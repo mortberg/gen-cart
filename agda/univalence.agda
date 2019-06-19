@@ -41,7 +41,7 @@ module _ {ℓ} {Γ : Set ℓ} {A B : Fib Γ} (P : PathU A B) (x : Γ) (a : A .fs
     η = P .line .snd
 
     com =
-      strictifyFib H η O (λ i → x , i) (O ≈I) (∅-rec ∘ O≠I)
+      strictifyFib H η O (λ i → x , i) ⊥ (∅-rec ∘ O≠I)
         ( subst (λ F → F .fst x) (symm (P .atO)) a
         , λ u → O≠I u
         )

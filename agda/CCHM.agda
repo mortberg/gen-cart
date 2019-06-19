@@ -78,12 +78,10 @@ isCCHMFib→isFib {Γ = Γ} A α r p φ f x₀ = record
     ( path
       (λ t → fil' t .fst)
       (cong
-        (λ {(f , ex) → α O' (λ i → p (min i r)) (φ ∨ O ≈I) f (sqz O .fst , ex) .fst})
+        (λ {(f , ex) → α O' (λ i → p (min i r)) (φ ∨ ⊥) f (sqz O .fst , ex) .fst})
         (Σext
           (funext
-            (∨-elimEq φ (O ≈I)
-              (λ _ → refl)
-              (λ v → O≠I v)))
+            (∨-elimEq φ ⊥ (λ _ → refl) (λ v → ⊥→ v)))
           (funext λ _ → uipImp)))
       (symm (fil' I .snd ∣ inr refl ∣))
     , λ t u → fil' t .snd ∣ inl u ∣
@@ -106,22 +104,22 @@ isCCHMFib→isFib {Γ = Γ} A α r p φ f x₀ = record
 
   module _ (s : Int) where
 
-    filTube : [ φ ∨ O ≈I ] → (i : Int) → A (p (min i s))
+    filTube : [ φ ∨ ⊥ ] → (i : Int) → A (p (min i s))
     filTube =
-      ∨-rec φ (O ≈I)
+      ∨-rec φ ⊥
         (λ u i → f u (min i s))
         O≠I
         (λ _ O≡I → O≠I O≡I)
 
-    filBase : A (p O) [ φ ∨ O ≈I ↦ filTube ◆ O ]
+    filBase : A (p O) [ φ ∨ ⊥ ↦ filTube ◆ O ]
     filBase =
       ( sqz O .fst
-      , ∨-elimEq φ (O ≈I)
+      , ∨-elimEq φ ⊥
           (λ u → sqz O .snd ∣ inl u ∣)
           (λ v → O≠I v)
       )
 
-    fil = α O' (λ i → p (min i s)) (φ ∨ O ≈I) filTube filBase
+    fil = α O' (λ i → p (min i s)) (φ ∨ ⊥) filTube filBase
 
   module _ (t : Int) where
 

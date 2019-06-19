@@ -50,7 +50,7 @@ isFib→isHFib α r x φ f a₀ = α r (λ _ → x) φ f a₀
 
 isFib→isWCoeFib : ∀ {ℓ} {Γ : Set ℓ} {A : Γ → Set} → isFib A → isWCoeFib A
 isFib→isWCoeFib α r p a₀ =
-  let f = α r p (O ≈I) (λ x _ → O≠I x) (a₀ , λ u → O≠I u)
+  let f = α r p ⊥ ⊥→ (a₀ , λ u → ⊥→ u)
   in record { comp = λ s → f .comp s .fst ; cap = f .cap .fst }
 
 ------------------------------------------------------------------------------

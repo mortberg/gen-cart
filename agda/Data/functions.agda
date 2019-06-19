@@ -67,7 +67,7 @@ FibΠid {A} {B} α β r p φ f (g , ex) =
   where
   module Comp (s : Int) (a : A (p s)) where
 
-      wA = α s p (O ≈I) O≠I (a , λ u → O≠I u)
+      wA = α s p ⊥ O≠I (a , λ u → O≠I u)
 
       wBTube : [ φ ] → (i : Int) → B (p i , wA .comp i .fst)
       wBTube u i = f u i (wA .comp i .fst)

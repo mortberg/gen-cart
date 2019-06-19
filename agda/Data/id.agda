@@ -33,7 +33,7 @@ Id : ∀{ℓ}{Γ : Set ℓ}(A : Γ → Set) → Σ x ∈ Γ , A x × A x → Set
 Id {_} {Γ} A = Σ' (Path A) (Constancy A)
 
 pathToId : ∀{ℓ}{Γ : Set ℓ}{A : Γ → Set}{x : Γ}{a a' : A x} → Path A (x , a' , a') → Id A (x , a' , a')
-pathToId p = (p , O ≈I , λ u → O≠I u)
+pathToId p = (p , ⊥ , ⊥→)
 
 ConstancyExt : ∀{ℓ}{Γ : Set ℓ}(A : Γ → Set)
   {x : Γ} {a a' : A x}
@@ -85,7 +85,7 @@ FibIdId {A} α = FibΣ {B = Constancy A} (FibPath {A = A} α) β
         )
         (ConstancyExt A {p = snd (p r)} _
           (cofExt
-            (∨-rec (φ ∧ (λ u → f u r .fst)) ((O ≈I) ∧ (λ _ → ψ₀))
+            (∨-rec (φ ∧ (λ u → f u r .fst)) (⊥ ∧ (λ _ → ψ₀))
               id
               (O≠I ∘ fst)
               (λ _ _ → cofIsProp (φ ∧ (λ u → f u r .fst)) _ _))

@@ -31,7 +31,7 @@ SContr→Contr h = x , λ y → path (λ i → α y i .fst)
                                 (symm (α y O .snd ∣ inl refl ∣))
                                 (symm (α y I .snd ∣ inr refl ∣))
   where
-  x = h (O ≈I) O≠I .fst
+  x = h ⊥ O≠I .fst
   α = λ y i → h (i ≈O ∨ i ≈I) (∨-rec (i ≈O) (i ≈I) (λ _ → y) (λ _ → x) (λ {refl h → O≠I h}))
 
 -- TODO: We need to assume that A has hcomp to finish this
