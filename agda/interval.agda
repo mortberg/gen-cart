@@ -11,13 +11,19 @@ open import prelude
 ----------------------------------------------------------------------
 -- Interval
 ----------------------------------------------------------------------
-open import Agda.Builtin.TrustMe
 postulate
-  Int   : Set
-  O     : Int
-  I     : Int
-  O≠I   : ∀ {ℓ} {A : Set ℓ} → O ≡ I → A
+  Int  : Set
+  O    : Int
+  I    : Int
+  O≠I  : ∀ {ℓ} {A : Set ℓ} → O ≡ I → A
   cntd : (P : Int → Set) → ((i : Int) → P i ⊎ ¬ (P i)) → (i j : Int) → P i → P j
+
+
+¬O≡I : ¬ (O ≡ I)
+¬O≡I = O≠I
+
+¬O≡I→O≠I : ¬ (O ≡ I) → (∀ {ℓ} {A : Set ℓ} → O ≡ I → A)
+¬O≡I→O≠I H x = ∅-rec (H x)
 
 ----------------------------------------------------------------------
 -- Dependently typed paths
