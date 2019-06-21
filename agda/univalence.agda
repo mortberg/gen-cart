@@ -98,30 +98,30 @@ module _ {ℓ} {Γ : Set ℓ} (Aα Bβ : Fib Γ)
         (λ {refl → Bβ .fst x})
         u
 
-    Options : (r : Int) (p : Int → res (Γ × Int) ∈OI) → Set ℓ
-    Options r p =
+    Options : (p : Int → res (Γ × Int) ∈OI) → Set ℓ
+    Options p =
       ((λ i → (p i .fst .fst , O) , ∣ inl refl ∣)) ≡ p
       ⊎ ((λ i → (p i .fst .fst , I) , ∣ inr refl ∣)) ≡ p
 
-    extendedDiscr : (r : Int) (p : Int → res (Γ × Int) ∈OI) → Options r p
-    extendedDiscr r p with discriminate (snd ∘ fst ∘ p) (λ i → extractOI _ (p i .snd))
-    extendedDiscr r p | inl pO =
+    extendedDiscr : (p : Int → res (Γ × Int) ∈OI) → Options p
+    extendedDiscr p with discriminate (snd ∘ fst ∘ p) (λ i → extractOI _ (p i .snd))
+    extendedDiscr p | inl pO =
       inl (funext λ i → Σext (Σext refl (symm (pO i))) (trunc _ _))
-    extendedDiscr r p | inr pI =
+    extendedDiscr p | inr pI =
       inr (funext λ i → Σext (Σext refl (symm (pI i))) (trunc _ _))
 
 
     τHelper : (r : Int) (p : Int → res (Γ × Int) ∈OI)
-      → Options r p → ∀ φ f x₀ → WComp r (λ x → T (p x)) φ f x₀
+      → Options p → ∀ φ f x₀ → WComp r (λ x → T (p x)) φ f x₀
     τHelper r p (inl pO) =
       subst (λ p → ∀ φ f x₀ → WComp r (T ∘ p) φ f x₀) pO (Aα .snd r (fst ∘ fst ∘ p))
     τHelper r p (inr pI) =
       subst (λ p → ∀ φ f x₀ → WComp r (T ∘ p) φ f x₀) pI (Bβ .snd r (fst ∘ fst ∘ p))
 
     τ : isFib T
-    τ r p = τHelper r p (extendedDiscr r _)
+    τ r p = τHelper r p (extendedDiscr _)
 
-    τOHelper : (r : Int) (p : Int → Γ) (op : Options r (λ i → (p i , O) , ∣ inl refl ∣))
+    τOHelper : (r : Int) (p : Int → Γ) (op : Options (λ i → (p i , O) , ∣ inl refl ∣))
       → τHelper r (λ i → (p i , O) , ∣ inl refl ∣) op ≡ Aα .snd r p
     τOHelper r p (inl pO) =
       cong
@@ -131,9 +131,9 @@ module _ {ℓ} {Γ : Set ℓ} (Aα Bβ : Fib Γ)
       O≠I (symm (cong (λ f → f O .fst .snd) pI))
 
     τO : reindex T τ (λ x → (x , O) , ∣ inl refl ∣) ≡ Aα .snd
-    τO = funext λ r → funext λ p → τOHelper r p (extendedDiscr r _)
+    τO = funext λ r → funext λ p → τOHelper r p (extendedDiscr _)
 
-    τIHelper : (r : Int) (p : Int → Γ) (op : Options r (λ i → (p i , I) , ∣ inr refl ∣))
+    τIHelper : (r : Int) (p : Int → Γ) (op : Options (λ i → (p i , I) , ∣ inr refl ∣))
       → τHelper r (λ i → (p i , I) , ∣ inr refl ∣) op ≡ Bβ .snd r p
     τIHelper r p (inl pO) =
       O≠I (cong (λ f → f I .fst .snd) pO)
@@ -143,7 +143,7 @@ module _ {ℓ} {Γ : Set ℓ} (Aα Bβ : Fib Γ)
         (uip pI refl)
 
     τI : reindex T τ (λ x → (x , I) , ∣ inr refl ∣) ≡ Bβ .snd
-    τI = funext λ r → funext λ p → τIHelper r p (extendedDiscr r _)
+    τI = funext λ r → funext λ p → τIHelper r p (extendedDiscr _)
 
     g : (xiu : res (Γ × Int) ∈OI) → T xiu → Bβ .fst (xiu .fst .fst)
     g ((x , i) , u) =
