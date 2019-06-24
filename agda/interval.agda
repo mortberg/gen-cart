@@ -15,15 +15,11 @@ postulate
   Int  : Set
   O    : Int
   I    : Int
-  O≠I  : ∀ {ℓ} {A : Set ℓ} → O ≡ I → A
+  ¬O≡I : ¬ (O ≡ I)
   cntd : (P : Int → Set) → ((i : Int) → P i ⊎ ¬ (P i)) → (i j : Int) → P i → P j
 
-
-¬O≡I : ¬ (O ≡ I)
-¬O≡I = O≠I
-
-¬O≡I→O≠I : ¬ (O ≡ I) → (∀ {ℓ} {A : Set ℓ} → O ≡ I → A)
-¬O≡I→O≠I H x = ∅-rec (H x)
+O≠I : ∀ {ℓ} {A : Set ℓ} → O ≡ I → A
+O≠I x = ∅-rec (¬O≡I x)
 
 ----------------------------------------------------------------------
 -- Dependently typed paths
