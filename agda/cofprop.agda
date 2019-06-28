@@ -80,6 +80,9 @@ O≡IsCofProp i = i ≈O , symm , symm
 I≡IsCofProp : (i : Int) → isCofProp (I ≡ i)
 I≡IsCofProp i = i ≈I , symm , symm
 
+isCofProp-∅ : isCofProp ∅
+isCofProp-∅ = ⊥ , ⊥→ , ∅-rec
+
 ----------------------------------------------------------------------
 -- Compatible partial functions
 ----------------------------------------------------------------------

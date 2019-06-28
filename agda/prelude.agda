@@ -225,7 +225,7 @@ adjustSubstEq :
   → subst B p b ≡ subst B p' b'
   → subst B q b ≡ subst B q' b'
 adjustSubstEq B refl refl refl refl = id
-  
+
 ----------------------------------------------------------------------
 -- Type coercion
 ----------------------------------------------------------------------
