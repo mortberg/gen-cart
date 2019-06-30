@@ -16,7 +16,8 @@ postulate
   O    : Int
   I    : Int
   ¬O≡I : ¬ (O ≡ I)
-  cntd : (P : Int → Set) → ((i : Int) → P i ⊎ ¬ (P i)) → (i j : Int) → P i → P j
+  cntd : (P : Int → Set) → ((i : Int) → P i ⊎ ¬ (P i))
+    → ((i : Int) → P i) ⊎ ((i : Int) → ¬ P i)
 
 O≠I : ∀ {ℓ} {A : Set ℓ} → O ≡ I → A
 O≠I x = ∅-rec (¬O≡I x)

@@ -173,4 +173,6 @@ decEq→isHFib {Γ = Γ} A dec r x φ f a₀ = record
   ; cap  = refl~ _ , λ _ → a₀ .snd }
    where
    constant : ∀ {γ : Γ} (t : Int → A γ) (r s : Int) → t r ≡ t s
-   constant t r s = cntd (λ i → t r ≡ t i) (λ i → dec (t r) (t i)) r s refl
+   constant t r s with cntd (λ i → t r ≡ t i) (λ i → dec (t r) (t i))
+   constant t r s | inl f = f s
+   constant t r s | inr e = ∅-rec (e r refl)

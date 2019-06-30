@@ -67,24 +67,22 @@ private
   extractOI : (i : Int) → [ i ≈O ∨ i ≈I ] → i ≡ O ⊎ i ≡ I
   extractOI i = OI-rec i inl inr
 
-  discriminate : (f : Int → Int)
-    → (∀ i → f i ≡ O ⊎ f i ≡ I)
-    → (∀ i → f i ≡ O) ⊎ (∀ i → f i ≡ I)
-  discriminate f inOI with inOI O
-  discriminate f inOI | inl fO≡O =
-    inl (λ i → cntd (λ j → f j ≡ O) dec O i fO≡O)
-    where
-    dec : (i : Int) → f i ≡ O ⊎ ¬ (f i ≡ O)
-    dec i with inOI i
-    dec i | inl fi≡O = inl fi≡O
-    dec i | inr fi≡I = inr λ fi≡O → O≠I (trans fi≡I (symm fi≡O))
-  discriminate f inOI | inr fO≡I =
-    inr (λ i → cntd (λ j → f j ≡ I) dec O i fO≡I)
-    where
-    dec : (i : Int) → f i ≡ I ⊎ ¬ (f i ≡ I)
-    dec i with inOI i
-    dec i | inl fi≡O = inr λ fi≡I → O≠I (trans fi≡I (symm (fi≡O)))
-    dec i | inr fi≡I = inl fi≡I
+  module _ (f : Int → Int) (inOI : ∀ i → f i ≡ O ⊎ f i ≡ I) where
+
+    private
+      caseO : ∀ i → f i ≡ O ⊎ ¬ (f i ≡ O)
+      caseO i with inOI i
+      caseO i | inl fi≡O = inl fi≡O
+      caseO i | inr fi≡I = inr λ fi≡O → O≠I (trans fi≡I (symm fi≡O))
+
+    discriminate : (∀ i → f i ≡ O) ⊎ (∀ i → f i ≡ I)
+    discriminate with cntd _ caseO
+    discriminate | inl f≡O = inl f≡O
+    discriminate | inr f≠O = inr (λ i → rem i (inOI i))
+      where
+      rem : ∀ i → f i ≡ O ⊎ f i ≡ I → f i ≡ I
+      rem i (inl fi≡O) = ∅-rec (f≠O i fi≡O)
+      rem i (inr fi≡I) = fi≡I
 
 module _ {ℓ} {Γ : Set ℓ} (Aα Bβ : Fib Γ)
   (f : (x : Γ) → Aα .fst x → Bβ .fst x) (fEquiv : Equiv' f)
