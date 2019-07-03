@@ -18,7 +18,7 @@ module unifying-summary where
 open import interval
 
 
--- | Section 2.2: Cofibrant propositions where CofProp is Φ.
+-- | Section 2.2: Cofibrant propositions (Φ is called CofProp)
 -- (axioms 3, 4, 5 and 7)
 open import cofprop
 
