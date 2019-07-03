@@ -27,6 +27,7 @@ open import pushout
 open import realignment
 open import retract
 open import strictness-axioms
+open import unifying-summary
 open import univalence
 open import trivialfib
 open import wtypesred
