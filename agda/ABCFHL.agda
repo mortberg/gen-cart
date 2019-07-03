@@ -11,7 +11,7 @@ in
 
   https://github.com/riaqn/orton/blob/master/src/fibrations.agda
 
-This should correspond to what is in
+This correspond to the "unbiased fibrations" of
 
   https://github.com/awodey/math/tree/master/QMS
 

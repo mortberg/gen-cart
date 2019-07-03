@@ -216,7 +216,7 @@ FibGlueId Φ {T} {A} f e τ α r p ψ q (glue t₀ a₀ ft₀↗a₀ , ext) =
       )
 
     d = α I (λ _ → p r) (t ≈O ∨ t ≈I ∨ ψ) dTube dBase .comp O
-    
+
   -- Step 5̲
 
     module _ (ur : [ Φ (p r) ]) where

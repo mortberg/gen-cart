@@ -122,7 +122,7 @@ path-lift-tf C cfib (p , c₀) φ u =
       sc = strictifyFib C cfib O p φ u' (c₀ , (λ x → snd (u x)))
 
 
-{- If a map is both a cofibration and strong deformation retract, then it is a 
+{- If a map is both a cofibration and strong deformation retract, then it is a
    trivial cofibration.
 -}
 sdr-cof-to-tc : {A B : Set} (r : A → B) (s : B → A) (s-r : (a : A) → s (r a) ≡ a)
@@ -148,7 +148,7 @@ sdr-cof-to-tc {A} {B} r s s-r r-s str rcof =
                (subst X (symm l) (x₀ a) ≡ (subst X (symm p) (x₀ a')))
       lemma1 refl refl refl = refl
 
-      lemma2 : {b b' : B} (p q : b ≡ b') → (x : X b') → subst X p (subst X (symm q) x) ≡ x 
+      lemma2 : {b b' : B} (p q : b ≡ b') → (x : X b') → subst X p (subst X (symm q) x) ≡ x
       lemma2 refl refl x = refl
 
       x₀' : (a : A) → X' (r a)

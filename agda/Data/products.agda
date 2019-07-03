@@ -72,7 +72,7 @@ FibΣid {A} {B} α β r p φ f ((a₀ , b₀) , ex₀) =
   b₀FixBase : B (pcap I) [ φ ↦ b₀FixTube ◆ I ]
   b₀FixBase =
     ( subst (λ a → B (p r , a)) (symm (wA .cap .fst .atI)) b₀
-    , λ u → 
+    , λ u →
       adjustSubstEq (λ a → B (p r , a))
         (Σeq₁ (ex₀ u)) refl
         (wA .cap .snd I u) (symm (wA .cap .fst .atI))
