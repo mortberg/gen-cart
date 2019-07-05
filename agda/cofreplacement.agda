@@ -77,6 +77,8 @@ record triv-cofibration {A B : Set} (f : A → B) : Set₁ where
     upper-tri : (X : B → Set) (xfib : isFib X) (x₀ : (a : A) → X (f a)) → (a : A) →
                    j X xfib x₀ (f a) ≡ x₀ a
 
+open triv-cofibration public
+
 module cof-replace {A B : Set} (f : A → B) where
   M₀ : B → Set
   M₀ b = CR (SFiber f b)
@@ -95,7 +97,7 @@ module cof-replace {A B : Set} (f : A → B) where
 
   L-cof : cofibration L
   L-cof =
-      record { j = j
+      record { j = J
              ; upper-tri = ut }
       where
         module _ (X : M → Set) (xtf : isTrivialFib X) (x₀ : (a : A) → X (L a)) where
@@ -105,8 +107,8 @@ module cof-replace {A B : Set} (f : A → B) where
           lemma1 : (a : A) (b : B) (p : f a ≡ b) → (f a , incl (a , refl)) ≡ (b , incl (a , p))
           lemma1 a .(f a) refl = refl
 
-          j : (m : M) → X m
-          j (b , z) = CR-elim (X' b) (λ {(a , p) → subst X (lemma1 a b p) (x₀ a)})
+          J : (m : M) → X m
+          J (b , z) = CR-elim (X' b) (λ {(a , p) → subst X (lemma1 a b p) (x₀ a)})
                              (λ φ u g → fst (h φ u g))
                              (λ φ u g x → lemma2 (CR-red u x) (g x) (fst (h φ u g)) (snd (h φ u g) x))
                              z
@@ -120,7 +122,7 @@ module cof-replace {A B : Set} (f : A → B) where
                   X' b (fill φ u) [ φ ↦ (λ x → subst (λ c' → X' b c') (symm (CR-red u x)) (s x)) ]
               h φ u s = xtf (b , fill φ u) φ _
 
-          ut : (a : A) → j (L a) ≡ x₀ a
+          ut : (a : A) → J (L a) ≡ x₀ a
           ut a = CR-β (X' (f a)) (a , refl)
 
 
