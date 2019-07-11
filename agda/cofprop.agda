@@ -22,7 +22,7 @@ postulate
   CofProp : Set
   [_] : CofProp → Set
 
-  _≈O _≈I O≈_ I≈_ : (i : Int) → CofProp
+  _≈O _≈I : (i : Int) → CofProp
   [≈O] : ∀ i → [ i ≈O ] ≡ (i ≡ O)
   [≈I] : ∀ i → [ i ≈I ] ≡ (i ≡ I)
 
